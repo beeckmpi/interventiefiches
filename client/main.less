@@ -1,0 +1,246 @@
+@import "{}/imports/ui/stylesheets/not-found.less";
+
+body
+{
+  margin: 0 0;
+  padding: 0 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: #37474F;
+  color:#fff;
+}
+header {
+  background-color: #37474F;
+  color:#fff;
+  height: 40px;
+  padding: 10px 40px 2px;
+  box-shadow:0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28);
+}
+#page-title {
+  font-size: 25px;
+  font-weight: bold;
+  font-stretch: expanded;
+  text-transform: uppercase;
+}
+.columnEditPaper {
+  height: auto;
+  width: 330px;
+}
+
+.columnEditPaper.view {
+  min-height: 55px;
+}
+.columnEditPaper.edit {
+  min-height: 275px;
+  transition: all .3s ease .3s;
+  animation: editmove .3s;
+}
+@keyframes editmove {
+    0%   {height: 55px}
+    10% {height: 75px}
+    20% {height: 95px}
+    30% {height: 115px}
+    40% {height: 135px}
+    50% {height: 155px}
+    60% {height: 175px}
+    70% {height: 195px}
+    80% {height: 215px}
+    90% {height: 245px}
+    100% {height: 275px}
+}
+.columnEditPaper .edit {
+  transition: all .5s ease .5s;
+  animation: editmoveOpactity .53s;
+}
+@keyframes editmoveOpactity {
+    0%  {opacity: 0}
+    10% {opacity: 0.1}
+    20% {opacity: 0.2}
+    30% {opacity: 0.3}
+    40% {opacity: 0.4}
+    50% {opacity: 0.5}
+    60% {opacity: 0.6}
+    70% {opacity: 0.7}
+    80% {opacity: 0.8}
+    90% {opacity: 0.9}
+    100% {opacity: 1}
+}
+.columnEditPaper.edit .view {
+  top: 6px;
+}
+.templateTableHeader {
+  left: -250%;
+  position: absolute;
+  transition: all .3s ease .3s;
+  animation: mymove .3s;
+}
+@keyframes mymove {
+    0%   {left: -250%}
+    10% {left: -225%}
+    20% { left: -200%}
+    30%  {left: -175%}
+    40%  {left: -150%}
+    50%  {left: -125%}
+    60%  {left: -100%}
+    70%  {left: -75%}
+    80% {left: -50%}
+    90% {left: -25%}
+    100% {left: 0}
+}
+.templateTableHeader.ready {
+  left: 30px;
+  position: absolute;
+}
+#content {
+  width: 95%;
+  margin: 0 auto;
+}
+
+input {
+  padding: 6px 4px;
+  margin: 12px 12px 12px 0;
+  border-width: 0px 0px 0px 0px;
+  border-color: #03A9F4;
+  color: #004D40;
+  min-width: 243px;
+}
+
+
+input#templateTitle{
+  font-size: 25px;
+}
+
+select#templateType, select#rows {
+  min-width: auto;
+  margin-left: 15px;
+  background-color: #efefef;
+  border-radius: 3px;
+  padding: 5px 8px;
+}
+.inlineBlock {
+  display: inline-block;
+  vertical-align: bottom;
+  min-width: 180px;
+}
+select {
+  padding: 6px 0px;
+  margin: 12px 12px 12px 0;
+  border-width: 0px 0px 0px 0px;
+  border-color: #03A9F4;
+  color: #004D40;
+  min-width: 250px;
+}
+.dragCategoryItem {
+  padding: 0px 15px 5px 15px;
+  margin: 3px 0px 10px 0px;
+  position: relative;
+}
+#templateTable {
+  min-width: 50%;
+  max-width: 70%;
+}
+.ColumnEdit {
+  position: relative;
+}
+th.templateType {
+  width: 70px;
+}
+table input, table select {
+  min-width: 150px;
+  margin: 4px 4px 4px 0;
+  width: 100%;
+}
+
+table select {
+  background-color: #efefef;
+}
+table {
+  border: 0px solid #BBB;
+  border-width: 1px 1px 1px 1px;
+  border-radius: 3px;
+}
+th, td {
+  position: relative;
+  padding: 0px 8px 4px 8px;
+}
+thead tr {
+  border-bottom: 2px solid #AAA;
+}
+
+.seporator {
+  margin: 15px 0;
+}
+
+.delete {
+  position: absolute;
+  right: 13px;
+  top: 8px;
+  color:#888;
+  cursor: pointer;
+}
+form.th {
+  position: relative;
+}
+.dragCategory {
+  position: relative;
+  border: 2px solid #AAA;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+}
+.sidebar-editor {
+  position: fixed;
+  bottom: 0px;
+  top:56px;
+  right: -500px;
+  width: 28%;
+  z-index: 500;
+  padding: 4px 18px 4px 0px;
+  overflow-y: scroll;
+  transition: all .3s ease .3s;
+  animation: sidebar-move .3s;
+}
+@keyframes sidebar-move {
+    0%   {right: -500px}
+    10% {right: -450px}
+    20% { right: -400px}
+    30%  {right: -350px}
+    40%  {right: -300px}
+    50%  {right: -250px}
+    60%  {right: -200px}
+    70%  {right: -150px}
+    80% {right: -100px}
+    90% {right: -50px}
+    100% {right: 0}
+}
+.sidebar-editor.ready {
+  right: 0px;
+}
+Paper {
+  padding: 15px;
+}
+.bottomRightMenu {
+  position: fixed;
+  right: 0px;
+  bottom: 0px;
+  padding: 12px 23px 28px 23px;
+  height: 350px;
+  width: 100px;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+a {
+  font-style: normal;
+  text-decoration: none;
+  color: inherit;
+}
+
+.templateTableHeaderTitle {
+  font-size: 22px;
+  font-weight: bold;
+  padding-top: 8px
+}
