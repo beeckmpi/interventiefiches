@@ -1,5 +1,9 @@
 // react imports
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import { Meteor } from 'meteor/meteor';
+import { createContainer } from 'meteor/react-meteor-data';
+import PropTypes from 'prop-types';
 const paperTableStyle = {
   minWidth: '50%',
   maxWidth: '70%',
@@ -22,7 +26,9 @@ import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-export default class MijnFiches extends Component {
+import { Fiches } from '../../../api/fiches/fiches';
+
+class MijnFiches extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -87,4 +93,15 @@ export default class MijnFiches extends Component {
   }
 }
 MijnFiches.propTypes = {
+  fiches: PropTypes.array.isRequired,
+  currentUser: PropTypes.object,
 };
+
+export default createContainer(() => {
+  Meteor.subscribe('fiches');
+
+  return {
+    fiches: Fiches.find({}, { sort: { createdAt: -1 } }).fetch(),
+    currentUser: Meteor.user(),
+  };
+}, MijnFiches);

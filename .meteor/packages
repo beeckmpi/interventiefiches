@@ -24,3 +24,6 @@ practicalmeteor:mocha             # A package for writing and running your meteo
 johanbrook:publication-collector  # Test a Meteor publication by collecting its output
 react-meteor-data
 dynamic-import
+msavin:mongol
+accounts-base
+accounts-password
