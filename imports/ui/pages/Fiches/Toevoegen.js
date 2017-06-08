@@ -18,6 +18,12 @@ import TextField from 'material-ui/TextField';
 import TimePicker from 'material-ui/TimePicker';
 
 import { fiches } from '../../../api/fiches/methods.js';
+import KeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down';
+
+//styles
+const itemStyle = {fontSize:"smaller", margin:'15px 0px 6px 0px'};
+const arrowDownStyles = {height:"40px", position:"absolute", "right": "5px", "top": "18px", width:"40px", color:'#AAA'};
+const paperStyle = {position:"relative", padding:"5px 15px", width: "95%", margin: '20px auto', color:'#AAA'}
 
 //styles
 const paperTableStyle = {
@@ -129,7 +135,8 @@ export default class FicheToevoegen extends Component {
     return (
       <div className="container" style={{margin:"10px 30px 40px 230px", padding:"5px 8px 15px 8px"}}>
         <h3 style={{color:"#fff", marginLeft:"30px"}}>Fiche Toevoegen</h3>
-        <Paper id="content" style={{padding:"15px 15px 15px 15px"}}>
+        <Paper id="content" style={{padding:"1px 15px 15px 15px", position: "relative"}}>
+          <h3>Gegeven Provinciaal Coördinator</h3>
           <div style={{display:"inline-block"}}>
             <DatePicker floatingLabelStyle={floatingLabelColor} hintText="Op datum" locale="nl"  DateTimeFormat={Intl.DateTimeFormat} floatingLabelText="Op (Datum)" value={opDatum} name="opDatum" onChange={this.handleChangeDate}  mode="landscape" />
           </div>
@@ -183,15 +190,15 @@ export default class FicheToevoegen extends Component {
               floatingLabelStyle={floatingLabelColor}
               name="doorgegevenAan"
               id="doorgegevenAan"
-              value={district}
-              onChange={(event, index, value) => this.handleChangeSelect("district", event, index, value)}
+              value={doorgegevenAan}
+              onChange={(event, index, value) => this.handleChangeSelect("doorgegevenAan", event, index, value)}
               style={{minWidth: "512px"}}
             >
               <MenuItem value={"Anita Wuyts"} primaryText="Anita Wuyts" />
               <MenuItem value={"Pieter Beeckmans"} primaryText="Pieter Beeckmans" />
             </SelectField>
           </div>
-          <div style={{display:"flex"}}>
+          <div style={{display:"flex", flexWrap:'wrap'}}>
             <div>
               <SelectField
                 floatingLabelText="Oproep door"
@@ -200,7 +207,7 @@ export default class FicheToevoegen extends Component {
                 id="oproepDoor"
                 value={oproepDoor}
                 onChange={(event, index, value) => this.handleChangeSelect("oproepDoor", event, index, value)}
-              >                
+              >
                 <MenuItem value={"Politie"} primaryText="Politie" />
                 <MenuItem value={"VTC"} primaryText="VTC" />
                 <MenuItem value={"Andere"} primaryText="Andere" />
@@ -217,7 +224,7 @@ export default class FicheToevoegen extends Component {
               />
             </div>
           </div>
-          <div style={{display:"flex"}}>
+          <div style={{display:"flex", flexWrap:'wrap'}}>
             <div>
               <SelectField
                 floatingLabelText="Melding"
@@ -245,7 +252,7 @@ export default class FicheToevoegen extends Component {
               />
             </div>
           </div>
-          <div style={{display:"flex"}}>
+          <div style={{display:"flex", flexWrap:'wrap'}}>
             <div>
               <TextField
                 hintText="Weg"
@@ -277,7 +284,7 @@ export default class FicheToevoegen extends Component {
               />
             </div>
           </div>
-          <div style={{display:"flex"}}>
+          <div  style={{display:"flex", flexWrap:'wrap'}}>
             <div>
               <TextField
                 hintText="Gewestweg"
@@ -302,7 +309,7 @@ export default class FicheToevoegen extends Component {
               </SelectField>
             </div>
           </div>
-          <div style={{display:"flex"}}>
+          <div style={{display:"flex", flexWrap:'wrap'}}>
             <div>
               <TextField
                 hintText="km punt van"
@@ -326,7 +333,7 @@ export default class FicheToevoegen extends Component {
               />
             </div>
           </div>
-          <div style={{display:"flex"}}>
+          <div style={{display:"flex", flexWrap:'wrap'}}>
             <div>
               <TextField
                 hintText="straat"
@@ -368,6 +375,30 @@ export default class FicheToevoegen extends Component {
               onClick={this.submitForm}
             />
           </div>
+        </Paper>
+        <Paper style={paperStyle}>
+          <KeyboardArrowDown style={arrowDownStyles} />
+          <h3>Vaststelling</h3>
+        </Paper>
+        <Paper style={paperStyle}>
+          <KeyboardArrowDown style={arrowDownStyles} />
+          <h3>Beslissing oproep bijstand</h3>
+        </Paper>
+        <Paper style={paperStyle}>
+          <KeyboardArrowDown style={arrowDownStyles} />
+          <h3>Tijdstippen + Middelen uitvoering</h3>
+        </Paper>
+        <Paper style={paperStyle}>
+          <KeyboardArrowDown style={arrowDownStyles} />
+          <h3>Bijkomende details vaststellingen</h3>
+        </Paper>
+        <Paper style={paperStyle}>
+          <KeyboardArrowDown style={arrowDownStyles} />
+          <h3>Bijlages</h3>
+        </Paper>
+        <Paper style={paperStyle}>
+          <KeyboardArrowDown style={arrowDownStyles} />
+          <h3>Afmelding</h3>
         </Paper>
       </div>
     );

@@ -31,6 +31,8 @@ import SignIn from '../imports/ui/pages/user/AuthPageSignIn';
 import Join from '../imports/ui/pages/user/AuthPageJoin';
 import MijnFiches from '../imports/ui/pages/Fiches/MijnFiches';
 import ToevoegenFiche from '../imports/ui/pages/Fiches/Toevoegen';
+import ViewFiche from '../imports/ui/pages/Fiches/View';
+import EditFiche from '../imports/ui/pages/Fiches/bewerken';
 
 // App component - represents the whole app
 var injectTapEventPlugin = require("react-tap-event-plugin");
@@ -69,6 +71,8 @@ Meteor.startup(() => {
               <Route exact path="/aanmelden" component={SignIn} />
               <Route exact path="/mijnFiches" component={MijnFiches}/>
               <Route exact path="/fiches/Toevoegen" component={ToevoegenFiche}/>
+              <Route exact path="/fiches/view/:ficheId" component={ViewFiche}/>
+              <Route exact path="/fiches/edit/:ficheId" component={EditFiche}/>
             </div>
           </section>
         </MuiThemeProvider>

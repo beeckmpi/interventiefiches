@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
+import { withRouter } from 'react-router'
+import moment from 'moment-es6';
 import PropTypes from 'prop-types';
 const paperTableStyle = {
   minWidth: '50%',
@@ -27,6 +29,7 @@ import MenuItem from 'material-ui/MenuItem';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import { Fiches } from '../../../api/fiches/fiches';
+import FicheRow from '../../components/FicheRow';
 
 class MijnFiches extends Component {
   constructor(props) {
@@ -44,8 +47,19 @@ class MijnFiches extends Component {
       height: '300px',
     };
   }
-
+  goToFiche = () => {
+    console.log("alert");
+    /*const location = {
+      pathname: 'fiches/view/'+_id
+    }*/
+  }
+  renderFiches = () => {
+    return this.props.fiches.map((fiche) => (
+      <FicheRow key={fiche._id} fiche={fiche} />
+    ));
+  }
   render() {
+    console.log(this.props);
     const {deselectOnClickaway, enableSelectAll, fixedFooter, fixedHeader, multiSelectable, selectable, showCheckboxes, showRowHover, stripedRows} = this.state;
     return (
       <div className="container" style={{margin:"10px 0px 40px 230px"}}>
@@ -58,33 +72,11 @@ class MijnFiches extends Component {
                 <TableHeaderColumn>Datum</TableHeaderColumn>
                 <TableHeaderColumn>Districtsnummer</TableHeaderColumn>
                 <TableHeaderColumn>P. coördinator</TableHeaderColumn>
+                <TableHeaderColumn>Status</TableHeaderColumn>
               </TableRow>
             </TableHeader>
             <TableBody displayRowCheckbox={showCheckboxes} deselectOnClickaway={deselectOnClickaway} showRowHover={showRowHover} stripedRows={stripedRows}>
-              <TableRow>
-                <TableRowColumn>FA215147</TableRowColumn>
-                <TableRowColumn>01/06/2017</TableRowColumn>
-                <TableRowColumn>1M3D8EA</TableRowColumn>
-                <TableRowColumn>Anita Wuyts</TableRowColumn>
-              </TableRow>
-              <TableRow>
-                <TableRowColumn>FA215147</TableRowColumn>
-                <TableRowColumn>01/06/2017</TableRowColumn>
-                <TableRowColumn>1M3D8EA</TableRowColumn>
-                <TableRowColumn>Anita Wuyts</TableRowColumn>
-              </TableRow>
-              <TableRow>
-                <TableRowColumn>FA215147</TableRowColumn>
-                <TableRowColumn>01/06/2017</TableRowColumn>
-                <TableRowColumn>1M3D8EA</TableRowColumn>
-                <TableRowColumn>Anita Wuyts</TableRowColumn>
-              </TableRow>
-              <TableRow>
-                <TableRowColumn>FA215147</TableRowColumn>
-                <TableRowColumn>01/06/2017</TableRowColumn>
-                <TableRowColumn>1M3D8EA</TableRowColumn>
-                <TableRowColumn>Anita Wuyts</TableRowColumn>
-              </TableRow>
+              {this.renderFiches()}
             </TableBody>
           </Table>
         </Paper>
@@ -95,6 +87,7 @@ class MijnFiches extends Component {
 MijnFiches.propTypes = {
   fiches: PropTypes.array.isRequired,
   currentUser: PropTypes.object,
+  history: PropTypes.object.isRequired
 };
 
 export default createContainer(() => {
