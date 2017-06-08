@@ -125,20 +125,20 @@ class EditFiche extends Component {
             <h3>Beslissing oproep bijstand</h3>
             <div className={beslissing_}><Beslissing /></div>
           </Paper>
-          <Paper style={paperStyle} onClick={() => this.showHide('tijdstippen_', tijdstippen_)}>
-            { (tijdstippen_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} /> }
+          <Paper style={paperStyle} onClick={() => this.show('tijdstippen_', tijdstippen_)}>
+            { (tijdstippen_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} onClick={() => this.hide('tijdstippen_', tijdstippen_)} /> }
             <h3>Tijdstippen + Middelen uitvoering</h3>
           </Paper>
-          <Paper style={paperStyle} onClick={() => this.showHide('bijkomende_', bijkomende_)}>
-            { (bijkomende_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} /> }
+          <Paper style={paperStyle} onClick={() => this.show('bijkomende_', bijkomende_)}>
+            { (bijkomende_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} onClick={() => this.hide('bijkomende_', bijkomende_)} /> }
             <h3>Bijkomende details vaststellingen</h3>
           </Paper>
-          <Paper style={paperStyle} onClick={() => this.showHide('bijlages_', bijlages_)}>
-            { (bijlages_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} /> }
+          <Paper style={paperStyle} onClick={() => this.show('bijlages_', bijlages_)}>
+            { (bijlages_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} onClick={() => this.hide('bijlages_', bijlages_)} /> }
             <h3>Bijlages</h3>
           </Paper>
-          <Paper style={paperStyle} onClick={() => this.showHide('afmelding_', afmelding_)}>
-            { (afmelding_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} /> }
+          <Paper style={paperStyle} onClick={() => this.show('afmelding_', afmelding_)}>
+            { (afmelding_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} onClick={() => this.hide('afmelding_', afmelding_)} /> }
             <h3>Afmelding</h3>
           </Paper>
         </div>
