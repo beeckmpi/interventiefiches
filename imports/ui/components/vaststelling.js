@@ -24,7 +24,7 @@ const styles = {
     maxWidth: 250,
   },
   checkbox: {
-    maxWidth: '170pt', marginBottom: '8pt'
+    maxWidth: '170pt', marginBottom: '8pt', transition: 'all 0s ease-in-out'
   },
 };
 //locales

@@ -245,9 +245,34 @@ a {
   padding-top: 8px
 }
 
-.hidden, .closed {
+.hidden {
   display: none;
 }
-.show, .open {
+.show {
   display: inherit;
+}
+.parentP {
+  transition: all 1s ease-out;
+}
+.parentP.closed {
+  visibility: visible;
+  max-height: 50pt;
+}
+.parentP.open {
+  max-height: 3000pt;
+}
+.clickBox {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  z-index: 1000;
+  height: 68px;
+  background: transparent;
+}
+.closed {
+  visibility: hidden;
+}
+.open {
+  visibility: visible;
 }
