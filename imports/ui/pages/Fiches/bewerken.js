@@ -17,6 +17,8 @@ import KeyboardArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up';
 import Vaststelling from '../../components/vaststelling';
 import Beslissing from '../../components/Beslissing';
 import Tijdstippen from '../../components/Tijdstippen';
+import Bijkomende from '../../components/Bijkomende';
+import Upload from '../../components/Upload';
 
 //styles
 const itemStyle = {fontSize:"smaller", margin:'15px 0px 6px 0px'};
@@ -147,11 +149,13 @@ class EditFiche extends Component {
             <div className="clickBox" onTouchTap={() => this.showHide('bijkomendeC', 'bijkomende_', bijkomende_)}></div>
             { (bijkomende_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} /> }
             <h3>Bijkomende details vaststellingen</h3>
+            <div className={bijkomende_}><Bijkomende /></div>
           </Paper>
           <Paper style={paperStyle} className={bijlagesC}>
             <div className="clickBox" onTouchTap={() => this.showHide('bijlagesC', 'bijlages_', bijlages_)}></div>
             { (bijlages_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} /> }
             <h3>Bijlages</h3>
+            <div className={bijlages_}><Upload /></div>
           </Paper>
           <Paper style={paperStyle} className={afmeldingC}>
             <div className="clickBox" onTouchTap={() => this.showHide('afmeldingC', 'afmelding_', afmelding_)}></div>

@@ -5,7 +5,7 @@ import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment-es6';
 import PropTypes from 'prop-types';
-
+import {Link} from 'react-router-dom';
 // imports
 import { Fiches } from '../../../api/fiches/fiches';
 import Paper from 'material-ui/Paper';
@@ -23,18 +23,19 @@ class ViewFiche extends Component {
   }
 
   render() {
-    const { loading, fiche } = this.props
+    const { loading, fiche } = this.props;
     if(!this.props.loading){
-      console.log(this.props);
+      const edit_link = "/fiches/edit/"+fiche._id;
       return (
         <div className="container" style={{margin:"10px 30px 40px 230px", padding:"5px 8px 15px 8px"}}>
           <h3 style={{color:"#fff", marginLeft:"30px"}}>Fiche {loading ? fiche.data.fichenummer : ' ' }</h3>
           <Paper id="content" style={{padding:"15px 15px 15px 15px", position: "relative"}}>
-            
+
             <div style={{position:"absolute", right:"15px", top:"5px", width:"100px"}}>
               <RaisedButton
-                label="In behandeling nemem"
+                label="Bewerken"
                 primary={true}
+                containerElement={<Link to={edit_link} />}
               />
             </div>
             <div style={{display:"inline-block"}}>

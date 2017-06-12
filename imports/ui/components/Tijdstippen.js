@@ -52,8 +52,48 @@ export default class Tijdstippen extends Component {
 
     return (
       <section id="beslissing">
-        <div style={{fontSize: "0.83em", fontWeight: "bold"}}>Oproep aan</div>
-
+        <div style={{fontSize: "0.83em", fontWeight: "bold"}}></div>
+        <div style={{width: '200px', fontWeight: "bold"}}>Regie ter plaatse:</div>
+        <div style={{display:'flex', flexWrap: 'wrap', alignItems:'flex-end'}}>
+          <TimePicker floatingLabelStyle={floatingLabelColor} format="24hr" hintText="Van" name="regieVan" floatingLabelText="Van" />
+          <TimePicker floatingLabelStyle={floatingLabelColor} format="24hr" hintText="Tot" name="regieTot" floatingLabelText="Tot" />
+          <TextField floatingLabelStyle={floatingLabelColor} floatingLabelText="Regie arbeider" type="number" name="rArbeiders" />
+        </div>
+        <div style={{width: '200px', fontWeight: "bold"}}>Aannemer ter plaatse:</div>
+        <div style={{display:'flex', flexWrap: 'wrap', alignItems:'flex-end'}}>
+          <TimePicker floatingLabelStyle={floatingLabelColor} format="24hr" hintText="Van" name="regieVan" floatingLabelText="Van" />
+          <TimePicker floatingLabelStyle={floatingLabelColor} format="24hr" hintText="Tot" name="regieTot" floatingLabelText="Tot" />
+          <TextField floatingLabelStyle={floatingLabelColor} floatingLabelText="Regie toezichter" type="text" name="rToezichter" />
+        </div>
+        <div style={{width: '200px', fontWeight: "bold"}}>Signalisatie ter plaatse:</div>
+        <div style={{display:'flex', flexWrap: 'wrap', alignItems:'flex-end'}}>
+          <TimePicker floatingLabelStyle={floatingLabelColor} format="24hr" hintText="Van" name="regieVan" floatingLabelText="Van" />
+          <TimePicker floatingLabelStyle={floatingLabelColor} format="24hr" hintText="Tot" name="regieTot" floatingLabelText="Tot" />
+          <TextField floatingLabelStyle={floatingLabelColor} floatingLabelText="Aantal Botsers" type="number" name="rToezichter" />
+        </div>
+        <div style={{width: '200px', fontWeight: "bold"}}>Deskundige ter plaatse:</div>
+        <div style={{display:'flex', flexWrap: 'wrap', alignItems:'flex-end'}}>
+          <TimePicker floatingLabelStyle={floatingLabelColor} format="24hr" hintText="Van" name="regieVan" floatingLabelText="Van" />
+          <TimePicker floatingLabelStyle={floatingLabelColor} format="24hr" hintText="Tot" name="regieTot" floatingLabelText="Tot" />
+          <TextField floatingLabelStyle={floatingLabelColor} floatingLabelText="Deskundige" type="text" name="rToezichter" />
+        </div>
+        <div style={{width: '200px', fontWeight: "bold", paddingBottom: '10px'}}>Ondernomen actie:</div>
+        <div style={{display:'flex', flexWrap: 'wrap', alignItems:'flex-end'}}>
+          <Checkbox label="Afgraving" style={styles.checkbox} />
+          <Checkbox label="Ontstoppen riolering" style={styles.checkbox} />
+          <Checkbox label="Reinigen wegdek" style={styles.checkbox} />
+          <Checkbox label="V. / A. stootbanden" style={styles.checkbox} />
+          <Checkbox label="Vullen put" style={styles.checkbox} />
+          <Checkbox label="Andere" style={styles.checkbox} />
+        </div>
+        <TextField
+          floatingLabelText="Opmerkingen"
+          multiLine={true}
+          rows={3}
+          name="Opmerkingen"
+          style={{minWidth:"512px", maxWidth:"80%"}}
+          floatingLabelStyle={floatingLabelColor}
+        />
       </section>
     );
   }

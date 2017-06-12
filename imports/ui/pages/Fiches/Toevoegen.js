@@ -52,35 +52,18 @@ if (areIntlLocalesSupported(['nl', 'nl-BE'])) {
 export default class FicheToevoegen extends Component {
   constructor(props) {
     super(props);
+    this.data = {};
     this.state = {
-      andereMelding: "",
       andereMeldingShow: "hidden",
-      andereOproep: "",
       andereOproepShow: "hidden",
-      bijkomendeInformatie: "",
       district: "",
       doorgegevenAan: "",
-      gewestweg: "",
-      grondgebied: "",
-      huisnummer: "",
-      kmPuntTot: "",
-      kmPuntVan: "",
       melding: "",
-      opDatum: null,
-      opmerkingBereikbaarheid: '',
-      oproep: null,
-      oproepDoor: "",
       provinciaalCoordinator: "",
       richting: "",
-      rijrichting: "",
-      showRowHover: "",
-      straat: "",
-      weg: "",
       height: '300px',
     };
   }
-  handleChangeDate = (event, date) => this.setState({"opDatum": date});
-  handleChangeTime = (event, date) => this.setState({"oproep": date});
   handleChange = (event) => this.setState({[event.target.name]: event.target.value});
   handleChangeSelect = (id, event, index, value) => {
     this.setState({[id]: value});
@@ -102,35 +85,29 @@ export default class FicheToevoegen extends Component {
   }
   submitForm = (event) => {
     event.preventDefault();
-    Meteor.call('fiches.insert', this.state, function(err, result){
+    const {data, state} = this;
+    console.log(data);
+    for (var key in data) {
+      if("input" in data[key]){
+        console.log(data[key]["input"]["name"]+ ' ' + data[key]["input"]["value"]);
+      }
+    };
+    /*const dataC = Object.assign({}, data, state);
+    Meteor.call('fiches.insert', dataC, function(err, result){
       console.log(result);
-    });
+    });*/
   }
   render() {
     const {
-      andereMelding,
       andereMeldingShow,
-      andereOproep,
       andereOproepShow,
-      bijkomendeInformatie,
       district,
       doorgegevenAan,
-      gewestweg,
-      grondgebied,
-      huisnummer,
-      kmPuntTot,
-      kmPuntVan,
       melding,
-      opDatum,
-      opmerkingBereikbaarheid,
-      oproep,
       oproepDoor,
       provinciaalCoordinator,
       richting,
-      rijrichting,
-      showRowHover,
-      straat,
-      weg
+      height,
     } = this.state;
     return (
       <div className="container" style={{margin:"10px 30px 40px 230px", padding:"5px 8px 15px 8px"}}>
@@ -138,10 +115,10 @@ export default class FicheToevoegen extends Component {
         <Paper id="content" style={{padding:"1px 15px 15px 15px", position: "relative"}}>
           <h3>Gegeven Provinciaal Coördinator</h3>
           <div style={{display:"inline-block"}}>
-            <DatePicker floatingLabelStyle={floatingLabelColor} hintText="Op datum" locale="nl"  DateTimeFormat={Intl.DateTimeFormat} floatingLabelText="Op (Datum)" value={opDatum} name="opDatum" onChange={this.handleChangeDate}  mode="landscape" />
+            <DatePicker floatingLabelStyle={floatingLabelColor} hintText="Op datum" locale="nl"  DateTimeFormat={Intl.DateTimeFormat} ref={input => this.data.opDatum = input} floatingLabelText="Op (Datum)" name="opDatum"   mode="landscape" />
           </div>
           <div style={{display:"inline-block"}}>
-            <TimePicker floatingLabelStyle={floatingLabelColor} format="24hr" hintText="Oproep" name="oproep" floatingLabelText="Oproep"  onChange={this.handleChangeTime} />
+            <TimePicker floatingLabelStyle={floatingLabelColor} format="24hr" hintText="Oproep" name="oproep" floatingLabelText="Oproep" ref={input => this.data.oproep = input}   />
           </div>
           <div>
             <TextField
@@ -150,8 +127,7 @@ export default class FicheToevoegen extends Component {
               multiLine={true}
               rows={2}
               name="bijkomendeInformatie"
-              onChange={this.handleChange}
-              value={bijkomendeInformatie}
+              ref={input => this.data.bijkomendeInformatie = input}
               style={{minWidth:"512px", maxWidth:"80%"}}
               floatingLabelStyle={floatingLabelColor}
             />
@@ -179,8 +155,7 @@ export default class FicheToevoegen extends Component {
               floatingLabelStyle={floatingLabelColor}
               floatingLabelText="Oproep ontvangen door"
               name="provinciaalCoordinator"
-              onChange={this.handleChange}
-              value={provinciaalCoordinator}
+              ref={input => this.data.provinciaalCoordinator = input}
               style={{minWidth: "512px"}}
             />
           </div>
@@ -219,8 +194,7 @@ export default class FicheToevoegen extends Component {
                 floatingLabelStyle={floatingLabelColor}
                 floatingLabelText="Andere"
                 name="andereOproep"
-                onChange={this.handleChange}
-                value={andereOproep}
+                ref={input => this.data.andereOproep = input}
               />
             </div>
           </div>
@@ -247,8 +221,7 @@ export default class FicheToevoegen extends Component {
                 hintText="Andere"
                 floatingLabelText="Andere"
                 name="andereMelding"
-                onChange={this.handleChange}
-                value={andereMelding}
+                ref={input => this.data.andereMelding = input}
               />
             </div>
           </div>
@@ -258,9 +231,8 @@ export default class FicheToevoegen extends Component {
                 hintText="Weg"
                 floatingLabelText="Weg"
                 floatingLabelStyle={floatingLabelColor}
+                ref={input => this.data.weg = input}
                 name="weg"
-                onChange={this.handleChange}
-                value={weg}
               />
             </div>
             <div>
@@ -269,8 +241,7 @@ export default class FicheToevoegen extends Component {
                 floatingLabelText="Grondgebied"
                 floatingLabelStyle={floatingLabelColor}
                 name="grondgebied"
-                onChange={this.handleChange}
-                value={grondgebied}
+                ref={input => this.data.grondgebied = input}
               />
             </div>
             <div>
@@ -279,8 +250,7 @@ export default class FicheToevoegen extends Component {
                 floatingLabelText="Rijrichting"
                 floatingLabelStyle={floatingLabelColor}
                 name="rijrichting"
-                onChange={this.handleChange}
-                value={rijrichting}
+                ref={input => this.data.rijrichting = input}
               />
             </div>
           </div>
@@ -291,8 +261,7 @@ export default class FicheToevoegen extends Component {
                 floatingLabelText="Gewestweg"
                 floatingLabelStyle={floatingLabelColor}
                 name="gewestweg"
-                onChange={this.handleChange}
-                value={gewestweg}
+                ref={input => this.data.gewestweg = input}
               />
             </div>
             <div>
@@ -316,9 +285,8 @@ export default class FicheToevoegen extends Component {
                 floatingLabelText="Km punt van"
                 floatingLabelStyle={floatingLabelColor}
                 name="kmPuntVan"
-                onChange={this.handleChange}
-                value={kmPuntVan}
                 type="number"
+                ref={input => this.data.number = input}
               />
             </div>
             <div>
@@ -327,9 +295,8 @@ export default class FicheToevoegen extends Component {
                 floatingLabelText="Km punt tot"
                 floatingLabelStyle={floatingLabelColor}
                 name="kmPuntTot"
-                onChange={this.handleChange}
-                value={kmPuntTot}
                 type="number"
+                ref={input => this.data.number = input}
               />
             </div>
           </div>
@@ -340,8 +307,7 @@ export default class FicheToevoegen extends Component {
                 floatingLabelText="Straat"
                 floatingLabelStyle={floatingLabelColor}
                 name="straat"
-                onChange={this.handleChange}
-                value={straat}
+                ref={input => this.data.straat = input}
               />
             </div>
             <div>
@@ -350,8 +316,7 @@ export default class FicheToevoegen extends Component {
                 floatingLabelText="Huisnummer"
                 floatingLabelStyle={floatingLabelColor}
                 name="huisnummer"
-                onChange={this.handleChange}
-                value={huisnummer}
+                ref={input => this.data.huisnummer = input}
               />
             </div>
           </div>
@@ -363,9 +328,8 @@ export default class FicheToevoegen extends Component {
               multiLine={true}
               rows={2}
               name="opmerkingBereikbaarheid"
-              onChange={this.handleChange}
-              value={opmerkingBereikbaarheid}
               style={{minWidth: "512px"}}
+              ref={input => this.data.opmerkingBereikbaarheid = input}
             />
           </div>
           <div style={{marginBottom:"25pt"}}>
