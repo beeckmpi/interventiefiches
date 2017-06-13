@@ -14,11 +14,12 @@ import FontIcon from 'material-ui/FontIcon';
 import KeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down';
 import KeyboardArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up';
 
+import Provinciaal from '../../components/Provinciaal';
 import Vaststelling from '../../components/vaststelling';
 import Beslissing from '../../components/Beslissing';
 import Tijdstippen from '../../components/Tijdstippen';
 import Bijkomende from '../../components/Bijkomende';
-import Upload from '../../components/Upload';
+import Bijlages from '../../components/Bijlages';
 
 //styles
 const itemStyle = {fontSize:"smaller", margin:'15px 0px 6px 0px'};
@@ -70,62 +71,7 @@ class EditFiche extends Component {
             <div className="clickBox" onTouchTap={() => this.showHide('provinciaalC', 'provinciaal_', provinciaal_)}></div>
             { (provinciaal_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} /> }
             <h3>Gegeven Provinciaal Coördinator</h3>
-            <section className={provinciaal_}>
-              <div style={{display:"inline-block"}}>
-                De oproep kwam binnen op <strong>{moment(fiche.data.opDatum).format('DD-MM-YYYY')} {moment(fiche.data.oproep).format('HH:MM')}</strong> en werd ontvangen door <strong>{fiche.data.provinciaalCoordinator}</strong>.
-              </div>
-              <div>
-                <div style={itemStyle}>Bijkomende informatie:</div>
-                {fiche.data.bijkomendeInformatie}
-              </div>
-              <div>
-                <div style={itemStyle}>District:</div>
-                <strong> {fiche.data.district}</strong>
-              </div>
-              <div>
-                <div style={itemStyle}>Doorgegeven aan:</div>
-                <strong>{fiche.data.doorgegevenAan}</strong>
-              </div>
-              <div>
-                <div style={itemStyle}>Oproep door:</div>
-                {fiche.data.oproepDoor=="Andere" &&
-                  <div><strong>{fiche.data.andereOproep}</strong></div>
-                }
-                {fiche.data.oproepDoor!="Andere" &&
-                  <div><strong>{fiche.data.oproepDoor}</strong></div>
-                }
-              </div>
-              <div>
-                <div style={itemStyle}>Melding:</div>
-                {fiche.data.melding=="Andere" &&
-                  <div><strong>{fiche.data.andereMelding}</strong></div>
-                }
-                {fiche.data.melding!="Andere" &&
-                  <div><strong>{fiche.data.melding}</strong></div>
-                }
-              </div>
-              <div>
-                <div style={itemStyle}>Locatie:</div>
-                {fiche.data.weg!="" &&
-                  <div>Op de <strong>{fiche.data.weg}</strong> in <strong>{fiche.data.grondgebied}</strong> richting <strong>{fiche.data.rijrichting}</strong></div>
-                }
-                {fiche.data.gewestweg!="" &&
-                  <div>Op de <strong>{fiche.data.gewestweg}</strong>  richting <strong>{fiche.data.richting}</strong></div>
-                }
-                {fiche.data.kmPuntVan!="" &&
-                  <div>Van kilometerpunt <strong>{fiche.data.kmPuntVan}</strong> tot kilometerpunt <strong>{fiche.data.kmPuntTot}</strong></div>
-                }
-                {fiche.data.straat!="" &&
-                  <div>In de <strong>{fiche.data.straat}</strong>, nummer <strong>{fiche.data.huisnummer}</strong></div>
-                }
-              </div>
-              {fiche.data.opmerkingBereikbaarheid!="" &&
-                <div>
-                  <div style={itemStyle}>Opmerking bereikbaarheid:</div>
-                  <div>{fiche.data.opmerkingBereikbaarheid}</div>
-                </div>
-              }
-            </section>
+            <div><Provinciaal className={provinciaal_} fiche={fiche} /></div>
           </Paper>
           <Paper style={paperStyle} className={vaststellingC}>
             <div className="clickBox" onTouchTap={() => this.showHide('vaststellingC', 'vaststelling_', vaststelling_)}></div>
@@ -155,7 +101,7 @@ class EditFiche extends Component {
             <div className="clickBox" onTouchTap={() => this.showHide('bijlagesC', 'bijlages_', bijlages_)}></div>
             { (bijlages_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} /> }
             <h3>Bijlages</h3>
-            <div className={bijlages_}><Upload /></div>
+            <div className={bijlages_}><Bijlages key={fiche._id} fiche={fiche} /></div>
           </Paper>
           <Paper style={paperStyle} className={afmeldingC}>
             <div className="clickBox" onTouchTap={() => this.showHide('afmeldingC', 'afmelding_', afmelding_)}></div>

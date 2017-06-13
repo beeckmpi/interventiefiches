@@ -56,14 +56,20 @@ export default class FicheToevoegen extends Component {
     this.state = {
       andereMeldingShow: "hidden",
       andereOproepShow: "hidden",
+      bijkomendeInformatie: "",
       district: "",
       doorgegevenAan: "",
       melding: "",
+      opDatum: null,
+      opmerkingBereikbaarheid: '',
+      oproep: null,
       provinciaalCoordinator: "",
       richting: "",
       height: '300px',
     };
   }
+  handleChangeDate = (event, date) => this.setState({"opDatum": date});
+  handleChangeTime = (event, date) => this.setState({"oproep": date});
   handleChange = (event) => this.setState({[event.target.name]: event.target.value});
   handleChangeSelect = (id, event, index, value) => {
     this.setState({[id]: value});
@@ -86,24 +92,29 @@ export default class FicheToevoegen extends Component {
   submitForm = (event) => {
     event.preventDefault();
     const {data, state} = this;
-    console.log(data);
+    let dataInputs = {};
     for (var key in data) {
       if("input" in data[key]){
-        console.log(data[key]["input"]["name"]+ ' ' + data[key]["input"]["value"]);
+        dataInputs[data[key]["input"]["name"]] = data[key]["input"]["value"];
       }
     };
-    /*const dataC = Object.assign({}, data, state);
+    console.log(dataInputs);
+    const dataC = Object.assign({}, dataInputs, state);
     Meteor.call('fiches.insert', dataC, function(err, result){
       console.log(result);
-    });*/
+    });
   }
   render() {
     const {
       andereMeldingShow,
       andereOproepShow,
+      bijkomendeInformatie,
       district,
       doorgegevenAan,
       melding,
+      opDatum,
+      opmerkingBereikbaarheid,
+      oproep,
       oproepDoor,
       provinciaalCoordinator,
       richting,
@@ -115,11 +126,11 @@ export default class FicheToevoegen extends Component {
         <Paper id="content" style={{padding:"1px 15px 15px 15px", position: "relative"}}>
           <h3>Gegeven Provinciaal Coördinator</h3>
           <div style={{display:"inline-block"}}>
-            <DatePicker floatingLabelStyle={floatingLabelColor} hintText="Op datum" locale="nl"  DateTimeFormat={Intl.DateTimeFormat} ref={input => this.data.opDatum = input} floatingLabelText="Op (Datum)" name="opDatum"   mode="landscape" />
-          </div>
-          <div style={{display:"inline-block"}}>
-            <TimePicker floatingLabelStyle={floatingLabelColor} format="24hr" hintText="Oproep" name="oproep" floatingLabelText="Oproep" ref={input => this.data.oproep = input}   />
-          </div>
+             <DatePicker floatingLabelStyle={floatingLabelColor} hintText="Op datum" locale="nl"  DateTimeFormat={Intl.DateTimeFormat} floatingLabelText="Op (Datum)" value={opDatum} name="opDatum" onChange={this.handleChangeDate}  mode="landscape" />
+           </div>
+           <div style={{display:"inline-block"}}>
+             <TimePicker floatingLabelStyle={floatingLabelColor} format="24hr" hintText="Oproep" name="oproep" floatingLabelText="Oproep"  onChange={this.handleChangeTime} />
+           </div>
           <div>
             <TextField
               hintText="Bijkomende Informatie"
@@ -127,7 +138,7 @@ export default class FicheToevoegen extends Component {
               multiLine={true}
               rows={2}
               name="bijkomendeInformatie"
-              ref={input => this.data.bijkomendeInformatie = input}
+              onChange={this.handleChange}
               style={{minWidth:"512px", maxWidth:"80%"}}
               floatingLabelStyle={floatingLabelColor}
             />
@@ -155,7 +166,7 @@ export default class FicheToevoegen extends Component {
               floatingLabelStyle={floatingLabelColor}
               floatingLabelText="Oproep ontvangen door"
               name="provinciaalCoordinator"
-              ref={input => this.data.provinciaalCoordinator = input}
+              onChange={this.handleChange}
               style={{minWidth: "512px"}}
             />
           </div>
@@ -329,7 +340,7 @@ export default class FicheToevoegen extends Component {
               rows={2}
               name="opmerkingBereikbaarheid"
               style={{minWidth: "512px"}}
-              ref={input => this.data.opmerkingBereikbaarheid = input}
+              onChange={this.handleChange}
             />
           </div>
           <div style={{marginBottom:"25pt"}}>
