@@ -14,12 +14,12 @@ import FontIcon from 'material-ui/FontIcon';
 import KeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down';
 import KeyboardArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up';
 
-import Provinciaal from '../../components/Provinciaal';
-import Vaststelling from '../../components/vaststelling';
-import Beslissing from '../../components/Beslissing';
-import Tijdstippen from '../../components/Tijdstippen';
-import Bijkomende from '../../components/Bijkomende';
-import Bijlages from '../../components/Bijlages';
+import Provinciaal from '../../components/view/Provinciaal';
+import Vaststelling from '../../components/edit/vaststelling';
+import Beslissing from '../../components/edit/Beslissing';
+import Tijdstippen from '../../components/edit/Tijdstippen';
+import Bijkomende from '../../components/edit/Bijkomende';
+import Bijlages from '../../components/edit/Bijlages';
 
 //styles
 const itemStyle = {fontSize:"smaller", margin:'15px 0px 6px 0px'};
@@ -62,7 +62,6 @@ class EditFiche extends Component {
   render() {
     const { loading, fiche } = this.props
     if(!this.props.loading){
-      console.log(this.props);
       const { provinciaal_, provinciaalC, vaststelling_, vaststellingC, beslissingC, beslissing_, tijdstippenC, tijdstippen_, bijkomendeC, bijkomende_, bijlagesC, bijlages_, afmeldingC, afmelding_ }= this.state;
       return (
         <div className="container" style={{margin:"10px 30px 40px 230px", padding:"5px 8px 15px 8px"}}>
@@ -77,25 +76,25 @@ class EditFiche extends Component {
             <div className="clickBox" onTouchTap={() => this.showHide('vaststellingC', 'vaststelling_', vaststelling_)}></div>
             { (vaststelling_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} /> }
             <h3>Vaststelling</h3>
-            <div><Vaststelling className={vaststelling_}/></div>
+            <div className={vaststelling_}><Vaststelling fiche={fiche.vastellingen} ficheId={fiche._id} key={'vaststelling_'+fiche._id} /></div>
           </Paper>
           <Paper style={paperStyle} className={beslissingC}>
             <div className="clickBox" onTouchTap={() => this.showHide('beslissingC', 'beslissing_', beslissing_)}></div>
             { (beslissing_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} /> }
             <h3>Beslissing oproep bijstand</h3>
-            <div className={beslissing_}><Beslissing /></div>
+            <div className={beslissing_}><Beslissing fiche={fiche.beslissingen} ficheId={fiche._id} key={'beslissing_'+fiche._id} /></div>
           </Paper>
           <Paper style={paperStyle} className={tijdstippenC}>
             <div className="clickBox" onTouchTap={() => this.showHide('tijdstippenC', 'tijdstippen_', tijdstippen_)}></div>
             { (tijdstippen_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} /> }
             <h3>Tijdstippen + Middelen uitvoering</h3>
-            <div className={tijdstippen_}><Tijdstippen /></div>
+            <div className={tijdstippen_}><Tijdstippen fiche={fiche} ficheId={fiche._id} key={'tijdstippen_'+fiche._id} /></div>
           </Paper>
           <Paper style={paperStyle} className={bijkomendeC}>
             <div className="clickBox" onTouchTap={() => this.showHide('bijkomendeC', 'bijkomende_', bijkomende_)}></div>
             { (bijkomende_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} /> }
             <h3>Bijkomende details vaststellingen</h3>
-            <div className={bijkomende_}><Bijkomende /></div>
+            <div className={bijkomende_}><Bijkomende fiche={fiche} key={'bijkomende_'+fiche._id} /></div>
           </Paper>
           <Paper style={paperStyle} className={bijlagesC}>
             <div className="clickBox" onTouchTap={() => this.showHide('bijlagesC', 'bijlages_', bijlages_)}></div>
