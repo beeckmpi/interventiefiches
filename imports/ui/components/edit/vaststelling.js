@@ -16,7 +16,7 @@ import TextField from 'material-ui/TextField';
 import TimePicker from 'material-ui/TimePicker';
 import Checkbox from 'material-ui/Checkbox';
 
-import VaststellingView from '../view/vaststelling';
+import Bijlages from '../view/vaststelling';
 
 const floatingLabelColor = {
   color: "#757575"
@@ -112,7 +112,7 @@ export default class Vaststelling extends Component {
       <div>
         <section id="vaststellingen" className={(this.state.mode=='edit')? 'show': 'hidden'}>
           <div style={{position: 'absolute', top:'15px', right:"60px", zIndex:"1005"}}>
-            <RaisedButton label="Categorie bewaren" primary={true} onClick={this.saveThis} />
+            <RaisedButton label="Categorie bewaren" className={this.props.classNameProp} primary={true} onClick={this.saveThis} />
           </div>
           <div style={{display:"inline-block"}}>
             <TimePicker floatingLabelStyle={floatingLabelColor} value={this.state.uurTerplaatse} format="24hr" onChange={(event, date) => this.handleChangeTime("uurTerplaatse", event, date)} hintText="Uur ter plaatse" name="terPlaatse" floatingLabelText="Uur ter plaatse"   />
@@ -226,7 +226,46 @@ export default class Vaststelling extends Component {
           <div style={{position: 'absolute', top:'15px', right:"60px", zIndex:"1005"}}>
             <RaisedButton label="Categorie bewerken" secondary={true} onClick={this.setAsView} />
           </div>
-          <VaststellingView fiche={fiche} />
+          <p>Aanwezig van <strong>{moment(fiche.uurTerplaatse).format('HH:MM')}</strong> tot <strong>{moment(fiche.uurEinde).format('HH:MM')}</strong></p>
+          <p>De volgende diensten waren aanwezig:</p>
+          <ul>
+            {fiche.federalePolitie? <li><strong>Federale Politie</strong></li> : ""}
+            {fiche.brandweer? <li><strong>Brandweer</strong></li> : ""}
+            {fiche.fast? <li><strong>FAST / Takeldienst</strong></li> : ""}
+            {fiche.civieleBescherming? <li><strong>Civiele Bescherming</strong></li> : ""}
+            {fiche.andereAanwezig? <li><strong>{fiche.andereAanwezigTekst}</strong></li> : ""}
+          </ul>
+          <p>Opmerkingen:</p>
+          <p><strong>{fiche.opmerkingen}</strong></p>
+          <p>Er waren de volgende incidenten / schadegevallen:</p>
+          <ul>
+            {fiche.put? <li><strong>Put in rijbaan</strong></li> : ""}
+            {fiche.signalisatie? <li><strong>Signalisatie</strong></li> : ""}
+            {fiche.boomStruikIncident? <li><strong>Boom/Struik</strong></li> : ""}
+            {fiche.kunstwerk? <li><strong>Kunstwerk</strong></li> : ""}
+            {fiche.verzakking? <li><strong>Verzakking</strong></li> : ""}
+            {fiche.opstuiking? <li><strong>Opstuikingk</strong></li> : ""}
+            {fiche.vangrail? <li><strong>Met. vangrail</strong></li> : ""}
+            {fiche.andereIncident? <li><strong>Andere: {fiche.andereIncidentTekst}</strong></li> : ""}
+            {fiche.stormschade ? <li><strong>Stormschade: {fiche.stormschadeTekst}</strong></li> : ''}
+            {fiche.wateroverlast ? <li><strong>Wateroverlast: {fiche.wateroverlastTekst}</strong></li> : ''}
+          </ul>
+          {fiche.ongeval ? <div><p>Er was een ongeval</p>
+            <ul>
+              {fiche.metStootb? <li><strong>Met. stootb.</strong></li> : ""}
+              {fiche.betStootb? <li><strong>Bet. stootb.</strong></li> : ""}
+              {fiche.signalisatie2? <li><strong>Signalisatie</strong></li> : ""}
+              {fiche.electrischeInstallatie? <li><strong>Elektrische Installatie</strong></li> : ""}
+              {fiche.boomStruikOngeval? <li><strong>Boom/struik</strong></li> : ""}
+              {fiche.kunstwerkOngeval? <li><strong>Kunstwerk.</strong></li> : ""}
+              {fiche.bermTalut? <li><strong>Berm/talut</strong></li> : ""}
+              {fiche.wegdek? <li><strong>Wegdek</strong></li> : ""}
+              {fiche.bijstandBrand ? <li><strong>Bijstand brand</strong></li> : ''}
+              {fiche.andereOngeval? <li><strong>Andere: {fiche.andereOngevalTekst}</strong></li> : ""}
+              {fiche.ladingverlies ? <li><strong>Ladingverlies: {fiche.ladingverliesTekst}</strong></li> : ''}
+              {fiche.bodemverontreiniging ? <li><strong>Bodemverontreiniging: {fiche.bodemverontreinigingTekst}</strong></li> : ''}
+            </ul>
+          </div> : '' }
         </section>
       </div>
     );

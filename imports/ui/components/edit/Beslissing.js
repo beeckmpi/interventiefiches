@@ -16,6 +16,8 @@ import TextField from 'material-ui/TextField';
 import TimePicker from 'material-ui/TimePicker';
 import Checkbox from 'material-ui/Checkbox';
 
+import BeslissingView from '../view/beslissing';
+
 const floatingLabelColor = {
   color: "#757575"
 }
@@ -43,30 +45,30 @@ export default class Beslissing extends Component {
     super(props);
     this.data = {};
     this.state = {
-      aannemer: false,
-      bodemdeskundige: false,
-      BotsersBestek: false,
-      brandweer: false,
-      civieleBescherming: false,
-      fast: false,
-      kennisgaveAndere: false,
-      kennisgavePolitie: false,
-      mode: "edit",
-      naOproepAannemer: false,
-      naOproepRegie: false,
-      naVaststellingAannemer: false,
-      naVaststellingRegie: false,
-      politie: false,
+      aannemer: props.fiche.aannemer,
+      bodemdeskundige: props.fiche.bodemdeskundige,
+      BotsersBestek: props.fiche.BotsersBestek,
+      brandweer: props.fiche.brandweer,
+      civieleBescherming: props.fiche.civieleBescherming,
+      fast: props.fiche.fast,
+      kennisgaveAndere: props.fiche.kennisgaveAndere,
+      kennisgavePolitie: props.fiche.kennisgavePolitie,
+      mode: props.fiche.mode,
+      naOproepAannemer: props.fiche.naOproepAannemer,
+      naOproepRegie: props.fiche.naOproepRegie,
+      naVaststellingAannemer: props.fiche.naVaststellingAannemer,
+      naVaststellingRegie: props.fiche.naVaststellingRegie,
+      politie: props.fiche.politie,
       redirect: false,
-      regie: false,
-      signalisatie: false,
-      signalisatieAannemer: false,
-      uurOproepAannemer: null,
-      uurOproepBodemdeskundige: null,
-      uurOproepRegie: null,
-      uurOproepSignalisatie: null,
-      VVC: false,
-      VTC: false,
+      regie: props.fiche.regie,
+      signalisatie: props.fiche.signalisatie,
+      signalisatieAannemer: props.fiche.signalisatieAannemer,
+      uurOproepAannemer: props.fiche.uurOproepAannemer,
+      uurOproepBodemdeskundige: props.fiche.uurOproepBodemdeskundige,
+      uurOproepRegie: props.fiche.uurOproepRegie,
+      uurOproepSignalisatie: props.fiche.uurOproepSignalisatie,
+      VVC: props.fiche.VVC,
+      VTC: props.fiche.VTC,
     };
   }
   handleChange = (event) => this.setState({[event.target.name]: event.target.value});
@@ -102,7 +104,7 @@ export default class Beslissing extends Component {
       <div>
         <section id="beslissing"  className={(this.state.mode=='edit')? 'show': 'hidden'}>
           <div style={{position: 'absolute', top:'15px', right:"60px", zIndex:"1005"}}>
-            <RaisedButton label="Categorie bewaren" primary={true} onClick={this.saveThis} />
+            <RaisedButton label="Categorie bewaren"  className={this.props.classNameProp} primary={true} onClick={this.saveThis} />
           </div>
           <div style={{fontSize: "0.83em", fontWeight: "bold"}}>Oproep aan</div>
           <div style={{display:'flex', flexWrap: 'wrap', alignItems:'flex-end'}}>
@@ -123,9 +125,10 @@ export default class Beslissing extends Component {
                   floatingLabelText="Naam aannemer"
                   name="naamAannemer"
                   ref={input => this.data.naamAannemer = input}
+                  value={fiche.naamAannemer}
                 />
-                <Checkbox label="Na oproep" checked={this.state.aannemer} onCheck={(event, checked) => this.handleChbxChange("naOproepAannemer", event, checked)} style={{maxWidth:'256px', marginBottom: '8pt'}} />
-                <Checkbox label="Na vaststellingen" checked={this.state.aannemer} onCheck={(event, checked) => this.handleChbxChange("naVaststellingAannemer", event, checked)} style={styles.checkbox} />
+                <Checkbox label="Na oproep" checked={this.state.naOproepAannemer} onCheck={(event, checked) => this.handleChbxChange("naOproepAannemer", event, checked)} style={{maxWidth:'256px', marginBottom: '8pt'}} />
+                <Checkbox label="Na vaststellingen" checked={this.state.naVaststellingAannemer} onCheck={(event, checked) => this.handleChbxChange("naVaststellingAannemer", event, checked)} style={styles.checkbox} />
               </div>
             </div>
           </div>
@@ -146,6 +149,7 @@ export default class Beslissing extends Component {
                 floatingLabelText="Naam Bodemdeskundige"
                 name="naamBodemdeskundig"
                 ref={input => this.data.naamBodemdeskundig = input}
+                value={fiche.naamBodemdeskundig}
               />
             </div>
           </div>
@@ -153,7 +157,7 @@ export default class Beslissing extends Component {
             <Checkbox label="Politie" checked={this.state.politie} onCheck={(event, checked) => this.handleChbxChange("politie", event, checked)} style={styles.checkbox} />
             <Checkbox label="Brandweer" checked={this.state.brandweer} onCheck={(event, checked) => this.handleChbxChange("brandweer", event, checked)} style={styles.checkbox} />
             <Checkbox label="Civiele Bescherming" checked={this.state.civieleBescherming} onCheck={(event, checked) => this.handleChbxChange("civieleBescherming", event, checked)} style={styles.checkbox} />
-            <Checkbox label="FAST/Takeldienste" checked={this.state.fast} onCheck={(event, checked) => this.handleChbxChange("fast", event, checked)} style={styles.checkbox} />
+            <Checkbox label="FAST/Takeldiensten" checked={this.state.fast} onCheck={(event, checked) => this.handleChbxChange("fast", event, checked)} style={styles.checkbox} />
           </div>
           <h5>Kennisgave Aan</h5>
             <div style={{display:'flex', flexWrap: 'wrap', alignItems:'flex-end'}}>
@@ -166,6 +170,7 @@ export default class Beslissing extends Component {
                   floatingLabelText="Andere"
                   name="kennisgaveAndereTekst"
                   ref={input => this.data.kennisgaveAndereTekst = input}
+                  value={fiche.kennisgaveAndereTekst}
                 /> : <div></div>}
             </div>
         </section>
@@ -173,7 +178,7 @@ export default class Beslissing extends Component {
           <div style={{position: 'absolute', top:'15px', right:"60px", zIndex:"1005"}}>
             <RaisedButton label="Categorie bewerken" secondary={true} onClick={this.setAsView} />
           </div>
-          
+          <BeslissingView fiche={fiche} />
         </section>
       </div>
     );

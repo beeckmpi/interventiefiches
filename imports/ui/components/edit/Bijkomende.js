@@ -43,10 +43,10 @@ export default class Bijkomende extends Component {
   render() {
     const { fiche } = this.props;
     return (
-      <div className={this.props.className}>
+      <div>
         <section id="Bijkomende" className={(this.state.mode=='edit')? 'show': 'hidden'}>
           <div style={{position: 'absolute', top:'15px', right:"60px", zIndex:"1005"}}>
-            <RaisedButton label="Categorie bewaren" primary={true} onClick={this.saveThis} />
+            <RaisedButton  className={this.props.className} label="Categorie bewaren" primary={true} onClick={this.saveThis} />
           </div>
           <TextField
             floatingLabelText="Bijkomende Details Vaststellingen - Acties - Uitvoering - ..."

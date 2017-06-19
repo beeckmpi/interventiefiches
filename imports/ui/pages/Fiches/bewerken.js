@@ -76,13 +76,13 @@ class EditFiche extends Component {
             <div className="clickBox" onTouchTap={() => this.showHide('vaststellingC', 'vaststelling_', vaststelling_)}></div>
             { (vaststelling_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} /> }
             <h3>Vaststelling</h3>
-            <div className={vaststelling_}><Vaststelling fiche={fiche.vastellingen} ficheId={fiche._id} key={'vaststelling_'+fiche._id} /></div>
+            <div><Vaststelling classNameProp={vaststelling_} fiche={fiche.vastellingen} ficheId={fiche._id} key={'vaststelling_'+fiche._id} /></div>
           </Paper>
           <Paper style={paperStyle} className={beslissingC}>
             <div className="clickBox" onTouchTap={() => this.showHide('beslissingC', 'beslissing_', beslissing_)}></div>
             { (beslissing_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} /> }
             <h3>Beslissing oproep bijstand</h3>
-            <div className={beslissing_}><Beslissing fiche={fiche.beslissingen} ficheId={fiche._id} key={'beslissing_'+fiche._id} /></div>
+            <div><Beslissing  classNameProp={beslissing_} fiche={fiche.beslissingen} ficheId={fiche._id} key={'beslissing_'+fiche._id} /></div>
           </Paper>
           <Paper style={paperStyle} className={tijdstippenC}>
             <div className="clickBox" onTouchTap={() => this.showHide('tijdstippenC', 'tijdstippen_', tijdstippen_)}></div>
