@@ -97,7 +97,7 @@ export default class Vaststelling extends Component {
     console.log(this.props.ficheId);
     state.mode= 'view';
     const dataC = Object.assign({}, dataInputs, state);
-    let dataImport = {'vastellingen': dataC};
+    let dataImport = {'vaststellingen': dataC};
     Meteor.call('fiches.update', this.props.ficheId, dataImport);
 
   }

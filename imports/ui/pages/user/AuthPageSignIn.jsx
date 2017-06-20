@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import  PropTypes from 'prop-types';
 import { browserHistory } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router';
 import { Meteor } from 'meteor/meteor';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
@@ -43,7 +44,12 @@ export default class AuthPageSignIn extends Component {
       password: this.state.password,
     };
     Meteor.loginWithPassword(userObject.email, userObject.password, function(err){
-        browserHistory.push('/');
+      const location = {
+        pathname: '/'
+      }
+      return (
+        <Redirect to={location}/>
+      )
     });
   }
   render() {

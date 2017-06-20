@@ -69,43 +69,43 @@ class EditFiche extends Component {
           <Paper id="content" style={{padding:"1px 15px 15px 15px", position: "relative"}} className={provinciaalC} >
             <div className="clickBox" onTouchTap={() => this.showHide('provinciaalC', 'provinciaal_', provinciaal_)}></div>
             { (provinciaal_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} /> }
-            <h3>Gegeven Provinciaal Coördinator</h3>
+            <div className="catTitle">Gegeven Provinciaal Coördinator</div>
             <div><Provinciaal className={provinciaal_} fiche={fiche} /></div>
           </Paper>
           <Paper style={paperStyle} className={vaststellingC}>
             <div className="clickBox" onTouchTap={() => this.showHide('vaststellingC', 'vaststelling_', vaststelling_)}></div>
             { (vaststelling_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} /> }
-            <h3>Vaststelling</h3>
-            <div><Vaststelling classNameProp={vaststelling_} fiche={fiche.vastellingen} ficheId={fiche._id} key={'vaststelling_'+fiche._id} /></div>
+            <div className="catTitle">Vaststelling</div>
+            <div><Vaststelling classNameProp={vaststelling_} fiche={fiche.vaststellingen} ficheId={fiche._id} key={'vaststelling_'+fiche._id} /></div>
           </Paper>
           <Paper style={paperStyle} className={beslissingC}>
             <div className="clickBox" onTouchTap={() => this.showHide('beslissingC', 'beslissing_', beslissing_)}></div>
             { (beslissing_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} /> }
-            <h3>Beslissing oproep bijstand</h3>
+            <div className="catTitle">Beslissing oproep bijstand</div>
             <div><Beslissing  classNameProp={beslissing_} fiche={fiche.beslissingen} ficheId={fiche._id} key={'beslissing_'+fiche._id} /></div>
           </Paper>
           <Paper style={paperStyle} className={tijdstippenC}>
             <div className="clickBox" onTouchTap={() => this.showHide('tijdstippenC', 'tijdstippen_', tijdstippen_)}></div>
             { (tijdstippen_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} /> }
-            <h3>Tijdstippen + Middelen uitvoering</h3>
+            <div className="catTitle">Tijdstippen + Middelen uitvoering</div>
             <div className={tijdstippen_}><Tijdstippen fiche={fiche} ficheId={fiche._id} key={'tijdstippen_'+fiche._id} /></div>
           </Paper>
           <Paper style={paperStyle} className={bijkomendeC}>
             <div className="clickBox" onTouchTap={() => this.showHide('bijkomendeC', 'bijkomende_', bijkomende_)}></div>
             { (bijkomende_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} /> }
-            <h3>Bijkomende details vaststellingen</h3>
+            <div className="catTitle">Bijkomende details vaststellingen</div>
             <div className={bijkomende_}><Bijkomende fiche={fiche} key={'bijkomende_'+fiche._id} /></div>
           </Paper>
           <Paper style={paperStyle} className={bijlagesC}>
             <div className="clickBox" onTouchTap={() => this.showHide('bijlagesC', 'bijlages_', bijlages_)}></div>
             { (bijlages_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} /> }
-            <h3>Bijlages</h3>
+            <div className="catTitle">Bijlages</div>
             <div className={bijlages_}><Bijlages key={fiche._id} fiche={fiche} /></div>
           </Paper>
           <Paper style={paperStyle} className={afmeldingC}>
             <div className="clickBox" onTouchTap={() => this.showHide('afmeldingC', 'afmelding_', afmelding_)}></div>
             { (afmelding_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} /> }
-            <h3>Afmelding</h3>
+            <div className="catTitle">Afmelding</div>
           </Paper>
         </div>
       );

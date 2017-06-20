@@ -13,8 +13,8 @@ Meteor.methods({
   	data.username = user.username;
     data.fichenummer = d.getFullYear()+'/'+data.district+'/'+moment().format("DDMM-HHmm");
     data.status = "Doorgezonden";
-    data.bijkomde = {text: '', mode: 'edit'};
-    data.vastellingen = {
+    const bijkomende = {text: '', mode: 'edit'};
+    const vaststellingen = {
       andereAanwezig: false,
       andereAanwezigTekst: "",
       andereIncident: false,
@@ -57,7 +57,7 @@ Meteor.methods({
       wateroverlastTekst: "",
       wegdek: false,
     }
-    data.beslissingen= {
+     const beslissingen = {
       aannemer: false,
       bodemdeskundige: false,
       BotsersBestek: false,
@@ -88,6 +88,9 @@ Meteor.methods({
     }
     return Fiches.insert({
       data,
+      vaststellingen,
+      beslissingen,
+      bijkomende,
       "createdAt": createdAt
     });
   },
