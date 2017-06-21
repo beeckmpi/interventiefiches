@@ -11,7 +11,8 @@ import TextField from 'material-ui/TextField';
 const floatingLabelColor = {
   color: "#757575"
 }
-const itemStyle = {margin:'15px 0px 6px 0px'};
+const itemStyle = {margin:'15px 0px 6px 0px', whiteSpace: 'pre-line'};
+const textStyle = {whiteSpace: 'pre-line'};
 export default class Bijkomende extends Component {
   constructor(props) {
     super(props);
@@ -64,7 +65,7 @@ export default class Bijkomende extends Component {
             <RaisedButton label="Categorie bewerken" secondary={true} onClick={this.setAsView} />
           </div>
           <div style={itemStyle}>Bijkomende Details Vaststellingen - Acties - Uitvoering - ...</div>
-          {this.state.bijkomende}
+          <div style={textStyle}><strong>{this.state.bijkomende}</strong></div>
         </section>
       </div>
     );

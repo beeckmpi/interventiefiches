@@ -31,6 +31,7 @@ const openStyle = {height: "auto"}
 class EditFiche extends Component {
   constructor(props) {
     super(props);
+    const data = {};
     this.state = {
       provinciaal_: 'open',
       provinciaalC: 'parentP open',
@@ -88,7 +89,7 @@ class EditFiche extends Component {
             <div className="clickBox" onTouchTap={() => this.showHide('tijdstippenC', 'tijdstippen_', tijdstippen_)}></div>
             { (tijdstippen_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} /> }
             <div className="catTitle">Tijdstippen + Middelen uitvoering</div>
-            <div className={tijdstippen_}><Tijdstippen fiche={fiche} ficheId={fiche._id} key={'tijdstippen_'+fiche._id} /></div>
+            <div className={tijdstippen_}><Tijdstippen fiche={fiche.tijdstippen} ficheId={fiche._id} key={'tijdstippen_'+fiche._id} /></div>
           </Paper>
           <Paper style={paperStyle} className={bijkomendeC}>
             <div className="clickBox" onTouchTap={() => this.showHide('bijkomendeC', 'bijkomende_', bijkomende_)}></div>

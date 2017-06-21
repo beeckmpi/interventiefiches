@@ -86,10 +86,34 @@ Meteor.methods({
       VVC: false,
       VTC: false,
     }
+    const tijdstippen = {
+      aantalBotsers: '',
+      afgraving: false,
+      anderen: false,      
+      naamDeskundige: '',
+      mode:'edit',
+      ontstoppen: false,
+      opmerkingen: '',
+      redirect: false,
+      reinigen: false,
+      regieArbeider: '',
+      regieToezichter: '',
+      totAannemer: null,
+      totDeskundige: null,
+      totRegie: null,
+      totSignalisatie: null,
+      vanAannemer: null,
+      vanDeskundige: null,
+      vanRegie: null,
+      vanSignalisatie: null,
+      vaStootbanden: false,
+      vullenPut: false
+    };
     return Fiches.insert({
       data,
       vaststellingen,
       beslissingen,
+      tijdstippen,
       bijkomende,
       "createdAt": createdAt
     });

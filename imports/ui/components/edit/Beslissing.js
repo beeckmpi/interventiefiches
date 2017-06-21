@@ -104,7 +104,7 @@ export default class Beslissing extends Component {
       <div>
         <section id="beslissing"  className={(this.state.mode=='edit')? 'show': 'hidden'}>
           <div style={{position: 'absolute', top:'15px', right:"60px", zIndex:"1005"}}>
-            <RaisedButton label="Categorie bewaren"  className={this.props.classNameProp} primary={true} onClick={this.saveThis} />
+            <RaisedButton label="Categorie bewaren" className={this.props.classNameProp} primary={true} onClick={this.saveThis} />
           </div>
           <div style={{fontSize: "0.83em", fontWeight: "bold"}}>Oproep aan</div>
           <div style={{display:'flex', flexWrap: 'wrap', alignItems:'flex-end'}}>
@@ -176,7 +176,7 @@ export default class Beslissing extends Component {
         </section>
         <section id="beslissingen_view" className={(this.state.mode=='view')? 'show': 'hidden'} style={{padding: '8px 0px 20px 0px'}}>
           <div style={{position: 'absolute', top:'15px', right:"60px", zIndex:"1005"}}>
-            <RaisedButton label="Categorie bewerken" secondary={true} onClick={this.setAsView} />
+            <RaisedButton label="Categorie bewerken" className={this.props.classNameProp} secondary={true} onClick={this.setAsView} />
           </div>
           <BeslissingView fiche={fiche} />
         </section>

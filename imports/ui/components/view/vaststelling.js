@@ -12,6 +12,7 @@ import areIntlLocalesSupported from 'intl-locales-supported';
 import VaststellingVIew from '../view/vaststelling';
 
 const itemStyle = {margin:'15px 0px 6px 0px'};
+const textStyle = {whiteSpace: 'pre-line'};
 //locales
 let DateTimeFormat;
 if (areIntlLocalesSupported(['nl', 'nl-BE'])) {
@@ -44,7 +45,7 @@ export default class VaststellingView extends Component {
             {fiche.andereAanwezig? <li><strong>{fiche.andereAanwezigTekst}</strong></li> : ""}
           </ul>
           <p>Opmerkingen:</p>
-          <p><strong>{fiche.opmerkingen}</strong></p>
+          <p style={textStyle}><strong>{fiche.opmerkingen}</strong></p>
           <p>Er waren de volgende incidenten / schadegevallen:</p>
           <ul>
             {fiche.put? <li><strong>Put in rijbaan</strong></li> : ""}

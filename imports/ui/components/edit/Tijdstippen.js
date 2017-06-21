@@ -16,6 +16,8 @@ import TextField from 'material-ui/TextField';
 import TimePicker from 'material-ui/TimePicker';
 import Checkbox from 'material-ui/Checkbox';
 
+import TijdstippenView from '../view/tijdstippen';
+
 const floatingLabelColor = {
   color: "#757575"
 }
@@ -28,6 +30,7 @@ const styles = {
     marginBottom: '8pt'
   },
 };
+const textStyle = {whiteSpace: 'pre-line'};
 //locales
 let DateTimeFormat;
 if (areIntlLocalesSupported(['nl', 'nl-BE'])) {
@@ -41,60 +44,118 @@ if (areIntlLocalesSupported(['nl', 'nl-BE'])) {
 export default class Tijdstippen extends Component {
   constructor(props) {
     super(props);
+    this.data = {};
     this.state = {
-      redirect: false
+      afgraving: props.fiche.afgraving,
+      andere: props.fiche.andere,
+      mode:props.fiche.mode,
+      ontstoppen: props.fiche.ontstoppen,
+      opmerkingen: props.fiche.opmerkingen,
+      reinigen: props.fiche.reinigen,
+      totAannemer: props.fiche.totAannemer,
+      totDeskundige: props.fiche.totDeskundige,
+      totRegie: props.fiche.totRegie,
+      totSignalisatie: props.fiche.totSignalisatie,
+      vanAannemer: props.fiche.vanAannemer,
+      vanDeskundige: props.fiche.vanDeskundige,
+      vanRegie: props.fiche.vanRegie,
+      vanSignalisatie: props.fiche.vanSignalisatie,
+      vaStootbanden: props.fiche.vaStootbanden,
+      vullenPut: props.fiche.vullenPut
     };
   }
-  handleChangeTime = (event, date) => this.setState({"oproep": date});
+  handleChange = (event) => this.setState({[event.target.name]: event.target.value});
+  handleChangeTime = (id, event, date) => this.setState({[id]: date});
+  handleChbxChange = (id, event, checked) => {
+    this.setState({[id]: checked});
+  }
+  saveThis = () => {
+    this.setState({mode: 'view'});
+    const {data, state} = this;
+    let dataInputs = {};
+    for (var key in data) {
+      if("input" in data[key]){
+        dataInputs[data[key]["input"]["name"]] = data[key]["input"]["value"];
+      }
+    };
+    state.mode= 'view';
+    const dataC = Object.assign({}, dataInputs, state);
+    let dataImport = {'tijdstippen': dataC};
+    Meteor.call('fiches.update', this.props.ficheId, dataImport);
+  }
+  setAsView = () => {
+    this.setState({mode: 'edit'});
+    Meteor.call('fiches.update', this.props.ficheId, {'tijdstippen.mode': "edit"});
+  }
 
   render() {
     const { fiche } = this.props;
-
+    const {data, state} = this;
     return (
-      <section id="beslissing">
-        <div style={{fontSize: "0.83em", fontWeight: "bold"}}></div>
-        <div style={{width: '200px', fontWeight: "bold"}}>Regie ter plaatse:</div>
-        <div style={{display:'flex', flexWrap: 'wrap', alignItems:'flex-end'}}>
-          <TimePicker floatingLabelStyle={floatingLabelColor} format="24hr" hintText="Van" name="regieVan" floatingLabelText="Van" />
-          <TimePicker floatingLabelStyle={floatingLabelColor} format="24hr" hintText="Tot" name="regieTot" floatingLabelText="Tot" />
-          <TextField floatingLabelStyle={floatingLabelColor} floatingLabelText="Regie arbeider" type="number" name="rArbeiders" />
-        </div>
-        <div style={{width: '200px', fontWeight: "bold"}}>Aannemer ter plaatse:</div>
-        <div style={{display:'flex', flexWrap: 'wrap', alignItems:'flex-end'}}>
-          <TimePicker floatingLabelStyle={floatingLabelColor} format="24hr" hintText="Van" name="regieVan" floatingLabelText="Van" />
-          <TimePicker floatingLabelStyle={floatingLabelColor} format="24hr" hintText="Tot" name="regieTot" floatingLabelText="Tot" />
-          <TextField floatingLabelStyle={floatingLabelColor} floatingLabelText="Regie toezichter" type="text" name="rToezichter" />
-        </div>
-        <div style={{width: '200px', fontWeight: "bold"}}>Signalisatie ter plaatse:</div>
-        <div style={{display:'flex', flexWrap: 'wrap', alignItems:'flex-end'}}>
-          <TimePicker floatingLabelStyle={floatingLabelColor} format="24hr" hintText="Van" name="regieVan" floatingLabelText="Van" />
-          <TimePicker floatingLabelStyle={floatingLabelColor} format="24hr" hintText="Tot" name="regieTot" floatingLabelText="Tot" />
-          <TextField floatingLabelStyle={floatingLabelColor} floatingLabelText="Aantal Botsers" type="number" name="rToezichter" />
-        </div>
-        <div style={{width: '200px', fontWeight: "bold"}}>Deskundige ter plaatse:</div>
-        <div style={{display:'flex', flexWrap: 'wrap', alignItems:'flex-end'}}>
-          <TimePicker floatingLabelStyle={floatingLabelColor} format="24hr" hintText="Van" name="regieVan" floatingLabelText="Van" />
-          <TimePicker floatingLabelStyle={floatingLabelColor} format="24hr" hintText="Tot" name="regieTot" floatingLabelText="Tot" />
-          <TextField floatingLabelStyle={floatingLabelColor} floatingLabelText="Deskundige" type="text" name="rToezichter" />
-        </div>
-        <div style={{width: '200px', fontWeight: "bold", paddingBottom: '10px'}}>Ondernomen actie:</div>
-        <div style={{display:'flex', flexWrap: 'wrap', alignItems:'flex-end'}}>
-          <Checkbox label="Afgraving" style={styles.checkbox} />
-          <Checkbox label="Ontstoppen riolering" style={styles.checkbox} />
-          <Checkbox label="Reinigen wegdek" style={styles.checkbox} />
-          <Checkbox label="V. / A. stootbanden" style={styles.checkbox} />
-          <Checkbox label="Vullen put" style={styles.checkbox} />
-          <Checkbox label="Andere" style={styles.checkbox} />
-        </div>
-        <TextField
-          floatingLabelText="Opmerkingen"
-          multiLine={true}
-          rows={3}
-          name="Opmerkingen"
-          style={{minWidth:"512px", maxWidth:"80%"}}
-          floatingLabelStyle={floatingLabelColor}
-        />
-      </section>
+      <div>
+        <section id="tijdstippen"  className={(this.state.mode=='edit')? 'show': 'hidden'}>
+          <div style={{position: 'absolute', top:'15px', right:"60px", zIndex:"1005"}}>
+            <RaisedButton label="Categorie bewaren"  className={this.props.classNameProp} primary={true} onClick={this.saveThis} />
+          </div>
+          <div style={{fontSize: "0.83em", fontWeight: "bold"}}></div>
+          <div style={{width: '200px', fontWeight: "bold"}}>Regie ter plaatse:</div>
+          <div style={{display:'flex', flexWrap: 'wrap', alignItems:'flex-end'}}>
+            <TimePicker floatingLabelStyle={floatingLabelColor} onChange={(event, date) => this.handleChangeTime("vanRegie", event, date)} value={state.vanRegie} format="24hr" hintText="Van" name="regieVan" floatingLabelText="Van" />
+            <TimePicker floatingLabelStyle={floatingLabelColor} onChange={(event, date) => this.handleChangeTime("totRegie", event, date)} value={state.totRegie} format="24hr" hintText="Tot" name="regieTot" floatingLabelText="Tot" />
+            <TextField floatingLabelStyle={floatingLabelColor} floatingLabelText="Regie arbeider" ref={input => data.regieArbeider = input} defaultValue={fiche.regieArbeider} type="number" name="regieArbeider" />
+          </div>
+          <div style={{width: '200px', fontWeight: "bold"}}>Aannemer ter plaatse:</div>
+          <div style={{display:'flex', flexWrap: 'wrap', alignItems:'flex-end'}}>
+            <TimePicker floatingLabelStyle={floatingLabelColor} onChange={(event, date) => this.handleChangeTime("vanAannemer", event, date)} value={state.vanAannemer} format="24hr" hintText="Van" name="regieVan" floatingLabelText="Van" />
+            <TimePicker floatingLabelStyle={floatingLabelColor} onChange={(event, date) => this.handleChangeTime("totAannemer", event, date)} value={state.totAannemer} format="24hr" hintText="Tot" name="regieTot" floatingLabelText="Tot" />
+            <TextField floatingLabelStyle={floatingLabelColor} floatingLabelText="Regie toezichter" ref={input => data.regieToezichter = input} defaultValue={fiche.regieToezichter} type="text" name="regieToezichter" />
+          </div>
+          <div style={{width: '200px', fontWeight: "bold"}}>Signalisatie ter plaatse:</div>
+          <div style={{display:'flex', flexWrap: 'wrap', alignItems:'flex-end'}}>
+            <TimePicker floatingLabelStyle={floatingLabelColor} onChange={(event, date) => this.handleChangeTime("vanSignalisatie", event, date)} value={state.vanSignalisatie} format="24hr" hintText="Van" name="regieVan" floatingLabelText="Van" />
+            <TimePicker floatingLabelStyle={floatingLabelColor} onChange={(event, date) => this.handleChangeTime("totSignalisatie", event, date)} value={state.totSignalisatie} format="24hr" hintText="Tot" name="regieTot" floatingLabelText="Tot" />
+            <TextField floatingLabelStyle={floatingLabelColor} floatingLabelText="Aantal Botsers" ref={input => data.aantalBotsers = input} defaultValue={fiche.aantalBotsers} type="number" name="aantalBotsers" />
+          </div>
+          <div style={{width: '200px', fontWeight: "bold"}}>Deskundige ter plaatse:</div>
+          <div style={{display:'flex', flexWrap: 'wrap', alignItems:'flex-end'}}>
+            <TimePicker floatingLabelStyle={floatingLabelColor} onChange={(event, date) => this.handleChangeTime("vanDeskundige", event, date)} value={state.vanDeskundige} format="24hr" hintText="Van" name="regieVan" floatingLabelText="Van" />
+            <TimePicker floatingLabelStyle={floatingLabelColor} onChange={(event, date) => this.handleChangeTime("totDeskundige", event, date)} value={state.totDeskundige} format="24hr" hintText="Tot" name="regieTot" floatingLabelText="Tot" />
+            <TextField floatingLabelStyle={floatingLabelColor} floatingLabelText="Deskundige" ref={input => data.naamDeskundige = input} defaultValue={fiche.naamDeskundige} type="text" name="naamDeskundige" />
+          </div>
+          <div style={{width: '200px', fontWeight: "bold", paddingBottom: '10px'}}>Ondernomen actie:</div>
+          <div style={{display:'flex', flexWrap: 'wrap', alignItems:'flex-end'}}>
+            <Checkbox label="Afgraving" checked={state.afgraving} onCheck={(event, checked) => this.handleChbxChange("afgraving", event, checked)} style={styles.checkbox} />
+            <Checkbox label="Ontstoppen riolering" checked={state.ontstoppen} onCheck={(event, checked) => this.handleChbxChange("ontstoppen", event, checked)} style={styles.checkbox} />
+            <Checkbox label="Reinigen wegdek" checked={state.reinigen} onCheck={(event, checked) => this.handleChbxChange("reinigen", event, checked)} style={styles.checkbox} />
+            <Checkbox label="V. / A. stootbanden" checked={state.vaStootbanden} onCheck={(event, checked) => this.handleChbxChange("vaStootbanden", event, checked)} style={styles.checkbox} />
+            <Checkbox label="Vullen put" checked={state.vullenPut} onCheck={(event, checked) => this.handleChbxChange("vullenPut", event, checked)} style={styles.checkbox} />
+            <Checkbox label="Andere" checked={state.andere} onCheck={(event, checked) => this.handleChbxChange("andere", event, checked)} style={styles.checkbox} />
+              {this.state.andere ? <TextField
+                floatingLabelStyle={floatingLabelColor}
+                floatingLabelText="Andere"
+                name="andereTekst"
+                ref={input => this.data.andereTekst = input}
+                defaultValue={fiche.andereTekst}
+              /> : <div></div>}
+          </div>
+          <TextField
+            floatingLabelText="Opmerkingen"
+            multiLine={true}
+            rows={3}
+            name="opmerkingen"
+            style={{minWidth:"512px", maxWidth:"80%", whiteSpace: 'pre-line'}}
+            floatingLabelStyle={floatingLabelColor}
+            value={state.opmerkingen}
+            onChange={this.handleChange}
+          />
+        </section>
+        <section id="tijdstippen_view" className={(this.state.mode=='view')? 'show': 'hidden'} style={{padding: '8px 0px 20px 0px'}}>
+          <div style={{position: 'absolute', top:'15px', right:"60px", zIndex:"1005"}}>
+            <RaisedButton label="Categorie bewerken" className={this.props.classNameProp} secondary={true} onClick={this.setAsView} />
+          </div>
+          <TijdstippenView fiche={fiche} />
+        </section>
+      </div>
     );
   }
 }
