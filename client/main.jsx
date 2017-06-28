@@ -66,7 +66,7 @@ Meteor.startup(() => {
               </div>
             </div>
             <div>
-              <Route exact path="/" component={Home}/>
+              <Route exact path="/" component={MijnFiches}/>
               <Route exact path="/registeren" component={Join} />
               <Route exact path="/aanmelden" component={SignIn} />
               <Route exact path="/mijnFiches" component={MijnFiches}/>

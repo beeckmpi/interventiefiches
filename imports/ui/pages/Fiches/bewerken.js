@@ -5,14 +5,20 @@ import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 import moment from 'moment-es6';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 
 // imports
 import { Fiches } from '../../../api/fiches/fiches';
+import Images from '../../../api/files/files';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
+import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
 import KeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down';
 import KeyboardArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up';
+import Send from 'material-ui/svg-icons/content/send';
+import Save from 'material-ui/svg-icons/content/save';
+import Back from 'material-ui/svg-icons/navigation/arrow-back';
 
 import Provinciaal from '../../components/view/Provinciaal';
 import Vaststelling from '../../components/edit/vaststelling';
@@ -61,12 +67,21 @@ class EditFiche extends Component {
   }
 
   render() {
-    const { loading, fiche } = this.props
+    const { loading, fiche, docs, docsReadyYet } = this.props;
     if(!this.props.loading){
+      const edit_link = "/fiches/view/"+fiche._id;
       const { provinciaal_, provinciaalC, vaststelling_, vaststellingC, beslissingC, beslissing_, tijdstippenC, tijdstippen_, bijkomendeC, bijkomende_, bijlagesC, bijlages_, afmeldingC, afmelding_ }= this.state;
       return (
         <div className="container" style={{margin:"10px 30px 40px 230px", padding:"5px 8px 15px 8px"}}>
-          <h3 style={{color:"#fff", marginLeft:"30px"}}>Fiche Bewerken {loading ? fiche.data.fichenummer : ' ' }</h3>
+          <div style={{position: "absolute", right: "67px", top:"22px"}}>
+            <RaisedButton style={{ fontSize:"smaller", fontWeight: "bold", marginLeft: '15pt'}} labelPosition="before" primary={true} label="Alles bewaren" icon={<Save />} />
+            <RaisedButton style={{ fontSize:"smaller", fontWeight: "bold", marginLeft: '15pt'}} labelPosition="before" secondary={true} label="Alles bewaren en doorsturen" icon={<Send />} />
+          </div>
+          <h3 style={{color:"#fff", margin:"0pt 20pt 5pt 20pt"}}>
+            <IconButton tooltip="Terug" touch={true} tooltipPosition="bottom-center" iconStyle={{color:"#FFFFFF", marginBottom: '-3pt'}} containerElement={<Link to={edit_link} />}>
+              <Back />
+            </IconButton>Fiche Bewerken {loading ? fiche.data.fichenummer : ' ' }
+          </h3>
           <Paper id="content" style={{padding:"1px 15px 15px 15px", position: "relative"}} className={provinciaalC} >
             <div className="clickBox" onTouchTap={() => this.showHide('provinciaalC', 'provinciaal_', provinciaal_)}></div>
             { (provinciaal_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} /> }
@@ -101,7 +116,7 @@ class EditFiche extends Component {
             <div className="clickBox" onTouchTap={() => this.showHide('bijlagesC', 'bijlages_', bijlages_)}></div>
             { (bijlages_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} /> }
             <div className="catTitle">Bijlages</div>
-            <div className={bijlages_}><Bijlages key={fiche._id} fiche={fiche} /></div>
+            <div className={bijlages_}><Bijlages key={fiche._id} fiche={fiche} docsReadyYet={docsReadyYet} docs={docs} /></div>
           </Paper>
           <Paper style={paperStyle} className={afmeldingC}>
             <div className="clickBox" onTouchTap={() => this.showHide('afmeldingC', 'afmelding_', afmelding_)}></div>
@@ -119,15 +134,20 @@ EditFiche.propTypes = {
   fiche: PropTypes.object,
   loading: PropTypes.bool,
   currentUser: PropTypes.object,
+  docsReadyYet: PropTypes.bool,
+  docs: PropTypes.array,
 };
 
 export default createContainer(({ match }) => {
   const postHandle = Meteor.subscribe('fiches');
+  var handle = Meteor.subscribe('files.images.all');
   const _id = match.params.ficheId;
   const loading = !postHandle.ready();
   const fiche = Fiches.findOne({'_id': _id});
   return {
     loading,
-    fiche
+    fiche,
+    docsReadyYet: handle.ready(),
+    docs: Images.find().fetch() // Collection is UserFiles
   };
 }, EditFiche);
