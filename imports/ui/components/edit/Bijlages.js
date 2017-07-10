@@ -9,6 +9,7 @@ import moment from 'moment-es6';
 import PropTypes from 'prop-types';
 
 import Dropzone from 'react-dropzone';
+import Images from '../../../api/files/files.js';
 
 const floatingLabelColor = {
   color: "#757575"
@@ -48,8 +49,9 @@ export default class Bijlages extends Component {
 
      if (file) {
        let uploadInstance = Images.insert({
-         file: file,
+         file: file,         
          meta: {
+           ficheId: this.props.fiche._id,
            locator: self.props.fileLocator,
            userId: Meteor.userId() // Optional, used to check on server for file tampering
          },
@@ -73,17 +75,17 @@ export default class Bijlages extends Component {
        });
 
        uploadInstance.on('uploaded', function (error, fileObj) {
+         if (error) {
+          alert('Error during upload: ' + error);
+        } else {
          console.log('uploaded: ', fileObj);
-
-         // Remove the filename from the upload box
-         self.refs['fileinput'].value = '';
-
          // Reset our state for the next file
          self.setState({
            uploading: [],
            progress: 0,
            inProgress: false
          });
+       }
        });
 
        uploadInstance.on('error', function (error, fileObj) {
@@ -133,6 +135,7 @@ export default class Bijlages extends Component {
          <Dropzone ref="dropzone" onDrop={this.uploadIt}>
            <div>Sleep bestanden hierin of klik hier om bestanden toe te voegen .</div>
          </Dropzone>
+         {this.showUploads()}
          {this.state.files.length > 0 ? <div>
            <h2>Uploading {this.state.files.length} files...</h2>
            <div>{this.state.files.map((file) => <img src={file.preview} /> )}</div>
