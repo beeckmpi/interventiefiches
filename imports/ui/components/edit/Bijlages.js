@@ -7,9 +7,11 @@ import { withRouter, Redirect } from 'react-router';
 import createHistory from 'history/createBrowserHistory';
 import moment from 'moment-es6';
 import PropTypes from 'prop-types';
+import Dialog from 'material-ui/Dialog';
 
 import Dropzone from 'react-dropzone';
 import Images from '../../../api/files/files.js';
+import IndividualFile from '../individualFile.js';
 
 const floatingLabelColor = {
   color: "#757575"
@@ -22,13 +24,21 @@ const styles = {
     maxWidth: '170pt',
     marginBottom: '8pt'
   },
+  largeImage: {maxWidth: "60%", maxHeight: "100%", height: "auto"}
+};
+const customContentStyle = {
+  width: '80%',
+  height: '80%',
+  maxWidth: 'none',
 };
 export default class Bijlages extends Component {
   constructor(props) {
     super(props);
     this.state = {
       redirect: false,
-      files: {}
+      open: false,
+      files: {},
+      activeId: '',
     };
   }
   getInitialState = () => {
@@ -41,7 +51,7 @@ export default class Bijlages extends Component {
   uploadIt = (acceptedFiles, rejectedFiles) => {
    "use strict";
    let self = this;
-
+   const ficheID = this.props.ficheId;
    if (acceptedFiles && acceptedFiles[0]) {
      // We upload only one file, in case
      // there was multiple files selected
@@ -49,9 +59,9 @@ export default class Bijlages extends Component {
 
      if (file) {
        let uploadInstance = Images.insert({
-         file: file,         
+         file: file,
          meta: {
-           ficheId: this.props.fiche._id,
+           ficheId: ficheID,
            locator: self.props.fileLocator,
            userId: Meteor.userId() // Optional, used to check on server for file tampering
          },
@@ -79,6 +89,11 @@ export default class Bijlages extends Component {
           alert('Error during upload: ' + error);
         } else {
          console.log('uploaded: ', fileObj);
+         console.log(fileObj._id);
+         let fileInfo = {'_id': fileObj._id, 'name': fileObj.name, 'ext': fileObj.ext}
+         let dataImport = {'files': fileInfo};
+         console.log(dataImport);
+         Meteor.call('fiches.addToSet', ficheID, dataImport);
          // Reset our state for the next file
          self.setState({
            uploading: [],
@@ -108,9 +123,8 @@ export default class Bijlages extends Component {
  // This is our progress bar, bootstrap styled
  // Remove this function if not needed
  showUploads = () => {
-   console.log('**********************************', this.state.uploading);
-
    if (!_.isEmpty(this.state.uploading)) {
+      console.log('**********************************', this.state.uploading);
      return (<div>
        {this.state.uploading.file.name}
 
@@ -126,20 +140,36 @@ export default class Bijlages extends Component {
      </div>);
    }
  }
+ showUploadedFiles = () => {
+   const { imageFiles } = this.props;
+   return imageFiles.map((image, key) => (
+     <IndividualFile key={key} image={image} />
+   ));
+ }
  render() {
    if (!this.props.docsReadyYet) {
      'use strict';
 
      return (
        <div>
-         <Dropzone ref="dropzone" onDrop={this.uploadIt}>
-           <div>Sleep bestanden hierin of klik hier om bestanden toe te voegen .</div>
-         </Dropzone>
-         {this.showUploads()}
-         {this.state.files.length > 0 ? <div>
-           <h2>Uploading {this.state.files.length} files...</h2>
-           <div>{this.state.files.map((file) => <img src={file.preview} /> )}</div>
-         </div> : null}
+         <div style={{marginBottom: "20pt"}}>
+           <Dropzone ref="dropzone" onDrop={this.uploadIt} style={{display: 'inherit', position: "relative", float:"left"}}>
+             <div style={{borderColor:"#666",borderRadius:5,borderStyle:"dashed",borderWidth:2,height:"200pt",width:"200pt", position:"relative", verticalAlign:"middle"}}>
+               <div style={{padding: "90pt 5pt", textAlign:"center"}}>Sleep bestanden hierin of klik hier om bestanden toe te voegen.</div>
+             </div>
+           </Dropzone>
+           <div style={{display: "flex",flexWrap: "wrap", marginLeft: "20pt"}}>
+             {this.showUploadedFiles()}
+           </div>
+         </div>
+       {this.showUploads()}
+       <Dialog
+          modal={true}
+          contentStyle={customContentStyle}
+          open={this.state.open}
+        >
+          <img  src={"/cdn/storage/Images/"+this.state.activeId+"/original/"+this.state.activeId+".png"} style={styles.largeImage} />
+        </Dialog>
        </div>
      );
    }

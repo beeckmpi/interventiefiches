@@ -89,7 +89,7 @@ Meteor.methods({
     const tijdstippen = {
       aantalBotsers: '',
       afgraving: false,
-      anderen: false,      
+      anderen: false,
       naamDeskundige: '',
       mode:'edit',
       ontstoppen: false,
@@ -124,5 +124,19 @@ Meteor.methods({
     data.updatedAt = d;
     data.updatedBy = user.username;
     return Fiches.update(id, {$set: data});
+  },
+  'fiches.addToSet'(id, data) {
+    d = new Date();
+    var user = Meteor.user();
+    data.updatedAt = d;
+    data.updatedBy = user.username;
+    return Fiches.update(id, {$addToSet: data});
+  },
+  'fiches.push'(id, data) {
+    d = new Date();
+    var user = Meteor.user();
+    data.updatedAt = d;
+    data.updatedBy = user.username;
+    return Fiches.update(id, {$push: data});
   },
 });

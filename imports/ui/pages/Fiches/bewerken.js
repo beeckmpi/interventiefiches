@@ -67,7 +67,7 @@ class EditFiche extends Component {
   }
 
   render() {
-    const { loading, fiche, docs, docsReadyYet } = this.props;
+    const { loading, fiche, imageFiles, docsReadyYet } = this.props;
     if(!this.props.loading){
       const edit_link = "/fiches/view/"+fiche._id;
       const { provinciaal_, provinciaalC, vaststelling_, vaststellingC, beslissingC, beslissing_, tijdstippenC, tijdstippen_, bijkomendeC, bijkomende_, bijlagesC, bijlages_, afmeldingC, afmelding_ }= this.state;
@@ -116,7 +116,7 @@ class EditFiche extends Component {
             <div className="clickBox" onTouchTap={() => this.showHide('bijlagesC', 'bijlages_', bijlages_)}></div>
             { (bijlages_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} /> }
             <div className="catTitle">Bijlages</div>
-            <div className={bijlages_}><Bijlages key={fiche._id} fiche={fiche}  /></div>
+            <div className={bijlages_}><Bijlages key={fiche._id} ficheId={fiche._id} fiche={fiche} imageFiles={imageFiles}  /></div>
           </Paper>
           <Paper style={paperStyle} className={afmeldingC}>
             <div className="clickBox" onTouchTap={() => this.showHide('afmeldingC', 'afmelding_', afmelding_)}></div>
@@ -135,7 +135,7 @@ EditFiche.propTypes = {
   loading: PropTypes.bool,
   currentUser: PropTypes.object,
   docsReadyYet: PropTypes.bool,
-  docs: PropTypes.array,
+  imageFiles: PropTypes.array,
 };
 
 export default createContainer(({ match }) => {
@@ -148,6 +148,6 @@ export default createContainer(({ match }) => {
     loading,
     fiche,
     docsReadyYet: handle.ready(),
-    docs: Images.find().fetch() // Collection is UserFiles
+    imageFiles: Images.find().fetch() // Collection is UserFiles
   };
 }, EditFiche);
