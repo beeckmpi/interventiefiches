@@ -3,6 +3,9 @@ import { Meteor } from 'meteor/meteor';
 
 // react imports
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import ReactDOM from 'react-dom';
+import { createContainer } from 'meteor/react-meteor-data';
 
 // material-ui imports
 import areIntlLocalesSupported from 'intl-locales-supported';
@@ -16,8 +19,10 @@ import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
 import TextField from 'material-ui/TextField';
 import TimePicker from 'material-ui/TimePicker';
+import AutoComplete from 'material-ui/AutoComplete';
 
 import { fiches } from '../../../api/fiches/methods.js';
+import { Personeelsleden } from '../../../api/personeelsleden/personeelsleden';
 import KeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down';
 
 //styles
@@ -49,7 +54,7 @@ if (areIntlLocalesSupported(['nl', 'nl-BE'])) {
   require('intl/locale-data/jsonp/nl-BE');
 }
 
-export default class FicheToevoegen extends Component {
+class FicheToevoegen extends Component {
   constructor(props) {
     super(props);
     this.data = {};
@@ -59,6 +64,7 @@ export default class FicheToevoegen extends Component {
       bijkomendeInformatie: "",
       district: "",
       doorgegevenAan: "",
+      GSM: "",
       melding: "",
       opDatum: null,
       opmerkingBereikbaarheid: '',
@@ -68,6 +74,8 @@ export default class FicheToevoegen extends Component {
       height: '300px',
     };
   }
+  handleUpdateInput = (searchText, dataSource, params) => {this.setState({doorgegevenAan: searchText,}); };
+  handleNewRequest = (chosenRequest, index) => {this.setState({doorgegevenAan: chosenRequest.naam, GSM: chosenRequest.GSM});};
   handleChangeDate = (event, date) => this.setState({"opDatum": date});
   handleChangeTime = (event, date) => this.setState({"oproep": date});
   handleChange = (event) => this.setState({[event.target.name]: event.target.value});
@@ -118,8 +126,12 @@ export default class FicheToevoegen extends Component {
       oproepDoor,
       provinciaalCoordinator,
       richting,
-      height,
+      height
     } = this.state;
+    const dataSourceConfig = {
+      text: 'naam',
+      value: 'GSM',
+    };
     return (
       <div className="container" style={{margin:"10px 30px 40px 230px", padding:"5px 8px 15px 8px"}}>
         <h3 style={{color:"#fff", marginLeft:"30px"}}>Fiche Toevoegen</h3>
@@ -170,19 +182,27 @@ export default class FicheToevoegen extends Component {
               style={{minWidth: "512px"}}
             />
           </div>
-          <div>
-            <SelectField
-              floatingLabelText="Doorgegeven door Provinciaal Coördinator aan"
+          <div style={{display:"flex"}}>
+            <AutoComplete
+              floatingLabelText="Provinciaal Coördinator"
               floatingLabelStyle={floatingLabelColor}
+              filter={AutoComplete.fuzzyFilter}
               name="doorgegevenAan"
               id="doorgegevenAan"
-              value={doorgegevenAan}
-              onChange={(event, index, value) => this.handleChangeSelect("doorgegevenAan", event, index, value)}
-              style={{minWidth: "512px"}}
-            >
-              <MenuItem value={"Anita Wuyts"} primaryText="Anita Wuyts" />
-              <MenuItem value={"Pieter Beeckmans"} primaryText="Pieter Beeckmans" />
-            </SelectField>
+              openOnFocus={true}
+              onUpdateInput={this.handleUpdateInput}
+              onNewRequest={this.handleNewRequest}
+              dataSource={this.props.personeelsleden}
+              dataSourceConfig={dataSourceConfig}
+              maxSearchResults={10}
+            />
+            <TextField
+              hintText="GSM"
+              floatingLabelStyle={floatingLabelColor}
+              floatingLabelText="GSM"
+              name="GSM"
+              value={this.state.GSM}
+            />
           </div>
           <div style={{display:"flex", flexWrap:'wrap'}}>
             <div>
@@ -380,4 +400,15 @@ export default class FicheToevoegen extends Component {
   }
 }
 FicheToevoegen.propTypes = {
+  personeelsleden: PropTypes.array,
+  loading: PropTypes.bool,
 };
+
+export default createContainer(({ match }) => {
+    const personeel = Meteor.subscribe('personeelsleden');
+    const loading = !personeel.ready();
+  return {
+    loading,
+    personeelsleden: Personeelsleden.find({}, {sort: {naam: 1}}).fetch()
+  };
+}, FicheToevoegen);

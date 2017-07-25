@@ -29,6 +29,7 @@ import MenuItem from 'material-ui/MenuItem';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import { Fiches } from '../../../api/fiches/fiches';
+import { Personeelsleden } from '../../../api/personeelsleden/personeelsleden';
 import FicheRow from '../../components/FicheRow';
 
 class MijnFiches extends Component {
@@ -92,9 +93,10 @@ MijnFiches.propTypes = {
 
 export default createContainer(() => {
   Meteor.subscribe('fiches');
-
+  Meteor.subscribe('personeelsleden');
   return {
     fiches: Fiches.find({}, { sort: { createdAt: -1 } }).fetch(),
+    personeelsleden: Personeelsleden.find({}, {sort: {naam: -1}}).fetch(),
     currentUser: Meteor.user(),
   };
 }, MijnFiches);

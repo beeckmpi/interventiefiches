@@ -8,6 +8,8 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 // imports
 import { Fiches } from '../../../api/fiches/fiches';
+import Images from '../../../api/files/files';
+import { Personeelsleden } from '../../../api/personeelsleden/personeelsleden';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import KeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down';
@@ -87,8 +89,8 @@ class ViewFiche extends Component {
     }
   }
   render() {
-    const { loading, fiche } = this.props;
-    if(!this.props.loading){
+    const { loading, fiche, imageFiles } = this.props;
+    if(!this.props.loading && !this.props.personeelLoading){
       const { provinciaal_, provinciaalC, vaststelling_, vaststellingC, beslissingC, beslissing_, tijdstippenC, tijdstippen_, bijkomendeC, bijkomende_, bijlagesC, bijlages_, afmeldingC, afmelding_ }= this.state;
       const edit_link = "/fiches/edit/"+fiche._id;
       return (
@@ -129,7 +131,7 @@ class ViewFiche extends Component {
                 <div className="clickBox" onTouchTap={() => this.showHide('tijdstippenC', 'tijdstippen_', tijdstippen_)}></div>
                 { (tijdstippen_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} /> }
                 <div className="catTitle">Tijdstippen + Middelen uitvoering</div>
-                <div><Tijdstippen fiche={fiche.tijdstippen} ficheId={fiche._id} key={'tijdstippen_'+fiche._id} /></div>
+                <div><Tijdstippen classNameProp={tijdstippen_} fiche={fiche.tijdstippen} ficheId={fiche._id} key={'tijdstippen_'+fiche._id} /></div>
               </Paper>
             </div>
             <div>
@@ -137,7 +139,7 @@ class ViewFiche extends Component {
                 <div className="clickBox" onTouchTap={() => this.showHide('bijkomendeC', 'bijkomende_', bijkomende_)}></div>
                 { (bijkomende_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} /> }
                 <div className="catTitle">Bijkomende details vaststellingen</div>
-                <div><Bijkomende fiche={fiche} key={'bijkomende_'+fiche._id} /></div>
+                <div><Bijkomende classNameProp={bijkomende_} fiche={fiche} key={'bijkomende_'+fiche._id} /></div>
               </Paper>
             </div>
             <div>
@@ -145,7 +147,7 @@ class ViewFiche extends Component {
                 <div className="clickBox" onTouchTap={() => this.showHide('bijlagesC', 'bijlages_', bijlages_)}></div>
                 { (bijlages_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} /> }
                 <div className="catTitle">Bijlages</div>
-                <div><Bijlages key={fiche._id} fiche={fiche.bijkomende} /></div>
+                <div><Bijlages classNameProp={bijlages_} key={fiche._id} ficheId={'bijlages_'+fiche._id} fiche={fiche} imageFiles={imageFiles} /></div>
               </Paper>
             </div>
             <div>
@@ -167,15 +169,25 @@ ViewFiche.propTypes = {
   fiche: PropTypes.object,
   loading: PropTypes.bool,
   currentUser: PropTypes.object,
+  docsReadyYet: PropTypes.bool,
+  imageFiles: PropTypes.array,
 };
 
 export default createContainer(({ match }) => {
-  const postHandle = Meteor.subscribe('fiches');
-  const _id = match.params.ficheId;
-  const loading = !postHandle.ready();
-  const fiche = Fiches.findOne({'_id': _id});
+    const postHandle = Meteor.subscribe('fiches');
+    var handle = Meteor.subscribe('files.images.all');
+    const personeel = Meteor.subscribe('personeelsleden');
+    const _id = match.params.ficheId;
+    const loading = !postHandle.ready();
+    const fiche = Fiches.findOne({'_id': _id});
+    const personeelLoading = !personeel.ready();
   return {
     loading,
-    fiche
+    personeelLoading,
+    fiche,
+    docsReadyYet: handle.ready(),
+    imageFiles: Images.find().fetch(), // Collection is UserFiles
+    personeelsleden: Personeelsleden.find().fetch(),
+
   };
 }, ViewFiche);

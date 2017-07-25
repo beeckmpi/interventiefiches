@@ -9,6 +9,7 @@ import {Link} from 'react-router-dom';
 
 // imports
 import { Fiches } from '../../../api/fiches/fiches';
+import { Personeelsleden } from '../../../api/personeelsleden/personeelsleden';
 import Images from '../../../api/files/files';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -141,13 +142,16 @@ EditFiche.propTypes = {
 export default createContainer(({ match }) => {
   const postHandle = Meteor.subscribe('fiches');
   var handle = Meteor.subscribe('files.images.all');
+  var personeel = Meteor.subscribe('personeelsleden');
   const _id = match.params.ficheId;
   const loading = !postHandle.ready();
   const fiche = Fiches.findOne({'_id': _id});
+  const personeelsleden = Personeelsleden.find().fetch();
   return {
     loading,
     fiche,
     docsReadyYet: handle.ready(),
-    imageFiles: Images.find().fetch() // Collection is UserFiles
+    imageFiles: Images.find().fetch(),
+    personeelsleden // Collection is UserFiles
   };
 }, EditFiche);

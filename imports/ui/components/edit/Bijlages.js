@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
 
 import Dropzone from 'react-dropzone';
+import RaisedButton from 'material-ui/RaisedButton';
 import Images from '../../../api/files/files.js';
 import IndividualFile from '../individualFile.js';
 
@@ -34,11 +35,15 @@ const customContentStyle = {
 export default class Bijlages extends Component {
   constructor(props) {
     super(props);
+    if(props.fiche.mode==undefined) {
+      props.fiche.mode = 'edit';
+    }
     this.state = {
       redirect: false,
       open: false,
       files: {},
       activeId: '',
+      mode: this.props.fiche.mode
     };
   }
   getInitialState = () => {
@@ -142,9 +147,11 @@ export default class Bijlages extends Component {
  }
  showUploadedFiles = () => {
    const { imageFiles } = this.props;
-   return imageFiles.map((image, key) => (
-     <IndividualFile key={key} image={image} />
-   ));
+   if(imageFiles!=undefined) {
+     return imageFiles.map((image, key) => (
+       <IndividualFile key={key} image={image} />
+     ));
+   }
  }
  render() {
    if (!this.props.docsReadyYet) {
@@ -152,17 +159,28 @@ export default class Bijlages extends Component {
 
      return (
        <div>
-         <div style={{marginBottom: "20pt"}}>
-           <Dropzone ref="dropzone" onDrop={this.uploadIt} style={{display: 'inherit', position: "relative", float:"left"}}>
-             <div style={{borderColor:"#666",borderRadius:5,borderStyle:"dashed",borderWidth:2,height:"200pt",width:"200pt", position:"relative", verticalAlign:"middle"}}>
-               <div style={{padding: "90pt 5pt", textAlign:"center"}}>Sleep bestanden hierin of klik hier om bestanden toe te voegen.</div>
-             </div>
-           </Dropzone>
-           <div style={{display: "flex",flexWrap: "wrap", marginLeft: "20pt"}}>
-             {this.showUploadedFiles()}
+         <section id="bijlages" className={(this.state.mode=='edit')? 'show': 'hidden'}>
+           <div style={{position: 'absolute', top:'15px', right:"60px", zIndex:"1005"}}>
+             <RaisedButton label="Categorie bewaren" className={this.props.classNameProp} primary={true} onClick={this.saveThis} />
            </div>
+           <div style={{marginBottom: "20pt"}}>
+             <Dropzone ref="dropzone" onDrop={this.uploadIt} style={{display: 'inherit', position: "relative", float:"left"}}>
+               <div style={{borderColor:"#666",borderRadius:5,borderStyle:"dashed",borderWidth:2,height:"200pt",width:"200pt", position:"relative", verticalAlign:"middle"}}>
+                 <div style={{padding: "90pt 5pt", textAlign:"center"}}>Sleep bestanden hierin of klik hier om bestanden toe te voegen.</div>
+               </div>
+             </Dropzone>
+             <div style={{display: "flex",flexWrap: "wrap", marginLeft: "20pt"}}>
+               {this.showUploadedFiles()}
+             </div>
+           </div>
+         {this.showUploads()}
+       </section>
+       <section id="bijlages_view" className={(this.state.mode=='view')? 'show': 'hidden'} style={{padding: '8px 0px 20px 0px'}}>
+         <div style={{position: 'absolute', top:'15px', right:"60px", zIndex:"1005"}}>
+           <RaisedButton label="Categorie bewerken" className={this.props.classNameProp} secondary={true} onClick={this.setAsView} />
          </div>
-       {this.showUploads()}
+         {this.showUploadedFiles()}
+       </section>
        <Dialog
           modal={true}
           contentStyle={customContentStyle}
