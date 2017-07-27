@@ -11,10 +11,12 @@ import PropTypes from 'prop-types';
 import areIntlLocalesSupported from 'intl-locales-supported';
 import DatePicker from 'material-ui/DatePicker';
 import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 import SelectField from 'material-ui/SelectField';
 import TextField from 'material-ui/TextField';
 import TimePicker from 'material-ui/TimePicker';
 import Checkbox from 'material-ui/Checkbox';
+import Dialog from 'material-ui/Dialog';
 
 import BeslissingView from '../view/beslissing';
 
@@ -58,6 +60,7 @@ export default class Beslissing extends Component {
       naOproepRegie: props.fiche.naOproepRegie,
       naVaststellingAannemer: props.fiche.naVaststellingAannemer,
       naVaststellingRegie: props.fiche.naVaststellingRegie,
+      open:false,
       politie: props.fiche.politie,
       redirect: false,
       regie: props.fiche.regie,
@@ -71,6 +74,18 @@ export default class Beslissing extends Component {
       VTC: props.fiche.VTC,
     };
   }
+  KennisgaveAndereOptieToevoegen = () => {
+   this.setState({open: true});
+  };
+
+  handleAdd = (event) => {
+    this.setState({open: false, kennisgaveAndereTekst:event.target.value});
+
+  };
+
+  handleClose = () => {
+   this.setState({open: false});
+  };
   handleChange = (event) => this.setState({[event.target.name]: event.target.value});
   handleChangeTime = (id, event, date) => this.setState({[id]: date});
   handleChbxChange = (id, event, checked) => {
@@ -99,7 +114,19 @@ export default class Beslissing extends Component {
 
   render() {
     const { data, fiche } = this.props;
-
+    const actions = [
+      <FlatButton
+        label="Annuleren"
+        primary={true}
+        onTouchTap={this.handleClose}
+      />,
+      <FlatButton
+        label="Toevoegen"
+        primary={true}
+        keyboardFocused={true}
+        onTouchTap={this.handleAdd}
+      />,
+    ];
     return (
       <div>
         <section id="beslissing"  className={(this.state.mode=='edit')? 'show': 'hidden'}>
@@ -164,15 +191,24 @@ export default class Beslissing extends Component {
               <Checkbox label="VVC" checked={this.state.VVC} onCheck={(event, checked) => this.handleChbxChange("VVC", event, checked)} style={styles.checkbox} />
               <Checkbox label="VTC" checked={this.state.VTC} onCheck={(event, checked) => this.handleChbxChange("VTC", event, checked)} style={styles.checkbox} />
               <Checkbox label="Politie" checked={this.state.kennisgavePolitie} onCheck={(event, checked) => this.handleChbxChange("kennisgavePolitie", event, checked)} style={styles.checkbox} />
-              <Checkbox label="Andere" checked={this.state.kennisgaveAndere} onCheck={(event, checked) => this.handleChbxChange("kennisgaveAndere", event, checked)} style={styles.checkbox} />
-                {this.state.kennisgaveAndere ? <TextField
-                  floatingLabelStyle={floatingLabelColor}
-                  floatingLabelText="Andere"
-                  name="kennisgaveAndereTekst"
-                  ref={input => this.data.kennisgaveAndereTekst = input}
-                  value={fiche.kennisgaveAndereTekst}
-                /> : <div></div>}
+              <RaisedButton label="Andere toevoegen" className={this.props.classNameProp} primary={true} onClick={this.KennisgaveAndereOptieToevoegen} />
             </div>
+            <Dialog
+              title="Andere categorie toevoegen"
+              actions={actions}
+              modal={false}
+              open={this.state.open}
+              onRequestClose={this.handleClose}
+            >
+              <TextField
+                floatingLabelStyle={floatingLabelColor}
+                floatingLabelText="Andere categorie"
+                name="kennisgaveAndereTekst"
+                value={this.state.kennisgaveAndereTekst}
+                ref={input => this.data.kennisgaveAndereTekst = input}
+                value={fiche.kennisgaveAndereTekst}
+              />
+            </Dialog>
         </section>
         <section id="beslissingen_view" className={(this.state.mode=='view')? 'show': 'hidden'} style={{padding: '8px 0px 20px 0px'}}>
           <div style={{position: 'absolute', top:'15px', right:"60px", zIndex:"1005"}}>
