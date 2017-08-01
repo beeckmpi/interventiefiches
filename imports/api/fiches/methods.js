@@ -15,11 +15,11 @@ Meteor.methods({
     data.status = "Doorgezonden";
     const bijkomende = {text: '', mode: 'edit'};
     const vaststellingen = {
-      andereAanwezig: false,
+      andereAanwezig: {},
       andereAanwezigTekst: "",
-      andereIncident: false,
+      andereIncident: {},
       andereIncidentTekst: "",
-      andereOngeval: false,
+      andereOngeval: {},
       andereOngevalTekst: "",
       bermTalut: false,
       betStootb: false,
@@ -89,7 +89,8 @@ Meteor.methods({
     const tijdstippen = {
       aantalBotsers: '',
       afgraving: false,
-      anderen: false,
+      andere: {},
+      andereTekst: "",
       naamDeskundige: '',
       mode:'edit',
       ontstoppen: false,

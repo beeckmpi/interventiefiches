@@ -80,7 +80,7 @@ export default class Beslissing extends Component {
   };
 
   handleAdd = (event) => {
-    this.setState({open: false, kennisgaveAndere: {...this.state.kennisgaveAndere, [this.state.kennisgaveAndereTekst]: true, kennisgaveAndereTekst: ""}});
+    this.setState({open: false, kennisgaveAndere: {...this.state.kennisgaveAndere, [this.state.kennisgaveAndereTekst]: true}, kennisgaveAndereTekst: ""});
   };
 
   renderKennisgaveAnderItems(){

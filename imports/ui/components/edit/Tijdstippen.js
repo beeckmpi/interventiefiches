@@ -10,11 +10,13 @@ import PropTypes from 'prop-types';
 
 import areIntlLocalesSupported from 'intl-locales-supported';
 import DatePicker from 'material-ui/DatePicker';
+import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
 import TextField from 'material-ui/TextField';
 import TimePicker from 'material-ui/TimePicker';
 import Checkbox from 'material-ui/Checkbox';
+import Dialog from 'material-ui/Dialog';
 
 import TijdstippenView from '../view/tijdstippen';
 
@@ -48,6 +50,7 @@ export default class Tijdstippen extends Component {
     this.state = {
       afgraving: props.fiche.afgraving,
       andere: props.fiche.andere,
+      andereTekst: "",
       mode:props.fiche.mode,
       ontstoppen: props.fiche.ontstoppen,
       opmerkingen: props.fiche.opmerkingen,
@@ -55,6 +58,7 @@ export default class Tijdstippen extends Component {
       totAannemer: props.fiche.totAannemer,
       totDeskundige: props.fiche.totDeskundige,
       totRegie: props.fiche.totRegie,
+      open:false,
       totSignalisatie: props.fiche.totSignalisatie,
       vanAannemer: props.fiche.vanAannemer,
       vanDeskundige: props.fiche.vanDeskundige,
@@ -64,11 +68,30 @@ export default class Tijdstippen extends Component {
       vullenPut: props.fiche.vullenPut
     };
   }
-  handleChange = (event) => this.setState({[event.target.name]: event.target.value});
-  handleChangeTime = (id, event, date) => this.setState({[id]: date});
-  handleChbxChange = (id, event, checked) => {
-    this.setState({[id]: checked});
+
+  andereOptieToevoegen = () => {this.setState({open: true})};
+
+  handleAdd = (event) => { this.setState({open: false, andere: {...this.state.andere, [this.state.andereTekst]: true}, andereTekst: ""})};
+
+  renderAndereItems(){
+    return Object.keys(this.state.andere).map((key, bool) => (
+      <Checkbox key={key} label={key} checked={this.state.andere[key]} onCheck={(event, checked) => this.handleChbxChangeAndere(key, event, checked)} style={styles.checkbox} />
+    ));
   }
+
+  handleChbxChangeAndere = (id, event, checked) => {
+    this.state.andere[id] = checked;
+    this.setState({andere: this.state.andere});
+  }
+
+  handleClose = () => { this.setState({open: false}); };
+
+  handleChange = (event) => this.setState({[event.target.name]: event.target.value});
+
+  handleChangeTime = (id, event, date) => this.setState({[id]: date});
+
+  handleChbxChange = (id, event, checked) => {this.setState({[id]: checked});}
+
   saveThis = () => {
     this.setState({mode: 'view'});
     const {data, state} = this;
@@ -83,6 +106,7 @@ export default class Tijdstippen extends Component {
     let dataImport = {'tijdstippen': dataC};
     Meteor.call('fiches.update', this.props.ficheId, dataImport);
   }
+
   setAsView = () => {
     this.setState({mode: 'edit'});
     Meteor.call('fiches.update', this.props.ficheId, {'tijdstippen.mode': "edit"});
@@ -91,6 +115,19 @@ export default class Tijdstippen extends Component {
   render() {
     const { fiche } = this.props;
     const {data, state} = this;
+    const actions = [
+      <FlatButton
+        label="Annuleren"
+        primary={true}
+        onTouchTap={this.handleClose}
+      />,
+      <FlatButton
+        label="Toevoegen"
+        primary={true}
+        keyboardFocused={true}
+        onTouchTap={this.handleAdd}
+      />,
+    ];
     return (
       <div>
         <section id="tijdstippen"  className={(this.state.mode=='edit')? 'show': 'hidden'}>
@@ -129,15 +166,24 @@ export default class Tijdstippen extends Component {
             <Checkbox label="Reinigen wegdek" checked={state.reinigen} onCheck={(event, checked) => this.handleChbxChange("reinigen", event, checked)} style={styles.checkbox} />
             <Checkbox label="V. / A. stootbanden" checked={state.vaStootbanden} onCheck={(event, checked) => this.handleChbxChange("vaStootbanden", event, checked)} style={styles.checkbox} />
             <Checkbox label="Vullen put" checked={state.vullenPut} onCheck={(event, checked) => this.handleChbxChange("vullenPut", event, checked)} style={styles.checkbox} />
-            <Checkbox label="Andere" checked={state.andere} onCheck={(event, checked) => this.handleChbxChange("andere", event, checked)} style={styles.checkbox} />
-              {this.state.andere ? <TextField
-                floatingLabelStyle={floatingLabelColor}
-                floatingLabelText="Andere"
-                name="andereTekst"
-                ref={input => this.data.andereTekst = input}
-                defaultValue={fiche.andereTekst}
-              /> : <div></div>}
+            {this.renderAndereItems()}
+            <RaisedButton label="Andere toevoegen" className={this.props.classNameProp} primary={true} onClick={this.andereOptieToevoegen} />
           </div>
+          <Dialog
+            title="Andere categorie toevoegen"
+            actions={actions}
+            modal={false}
+            open={state.open}
+            onRequestClose={this.handleClose}
+          >
+            <TextField
+              floatingLabelStyle={floatingLabelColor}
+              floatingLabelText="Andere categorie"
+              name="andereTekst"
+              value={state.andereTekst}
+              onChange={this.handleChange}
+            />
+          </Dialog>
           <TextField
             floatingLabelText="Opmerkingen"
             multiLine={true}

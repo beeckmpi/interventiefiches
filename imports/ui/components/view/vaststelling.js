@@ -31,6 +31,12 @@ export default class VaststellingView extends Component {
 
     };
   }
+
+  renderAndereItems(id){
+    return Object.keys(this.props.fiche[id]).map((key, bool) => (
+      this.props.fiche[id][key] ? <li key={key}><strong>{key}</strong></li> : ''
+    ));
+  }
   render() {
     const { data, fiche } = this.props;
     return (
@@ -42,7 +48,7 @@ export default class VaststellingView extends Component {
             {fiche.brandweer? <li><strong>Brandweer</strong></li> : ""}
             {fiche.fast? <li><strong>FAST / Takeldienst</strong></li> : ""}
             {fiche.civieleBescherming? <li><strong>Civiele Bescherming</strong></li> : ""}
-            {fiche.andereAanwezig? <li><strong>{fiche.andereAanwezigTekst}</strong></li> : ""}
+            {this.renderAndereItems('andereAanwezig')}
           </ul>
           <p>Opmerkingen:</p>
           <p style={textStyle}><strong>{fiche.opmerkingen}</strong></p>
@@ -55,7 +61,7 @@ export default class VaststellingView extends Component {
             {fiche.verzakking? <li><strong>Verzakking</strong></li> : ""}
             {fiche.opstuiking? <li><strong>Opstuikingk</strong></li> : ""}
             {fiche.vangrail? <li><strong>Met. vangrail</strong></li> : ""}
-            {fiche.andereIncident? <li><strong>Andere: {fiche.andereIncidentTekst}</strong></li> : ""}
+            {this.renderAndereItems('andereIncident')}
             {fiche.stormschade ? <li><strong>Stormschade: {fiche.stormschadeTekst}</strong></li> : ''}
             {fiche.wateroverlast ? <li><strong>Wateroverlast: {fiche.wateroverlastTekst}</strong></li> : ''}
           </ul>

@@ -31,6 +31,11 @@ export default class TijdstippenView extends Component {
 
     };
   }
+  renderAndereItems(){
+    return Object.keys(this.props.fiche.andere).map((key, bool) => (
+      this.props.fiche.andere[key] ? <li key={key}><strong>{key}</strong></li> : ''
+    ));
+  }
   render() {
     const { data, fiche } = this.props;
     return (
@@ -62,7 +67,7 @@ export default class TijdstippenView extends Component {
           {fiche.reinigen ? <li><strong>Reinigen wegdek</strong></li> : ''}
           {fiche.vaStootbanden ? <li><strong>V. / A. stootbanden</strong></li> : ''}
           {fiche.vullenPut ? <li><strong>Vullen put</strong></li> : ''}
-          {fiche.andere ? <li><strong>{fiche.andereTekst}</strong></li> : ''}
+          {this.renderAndereItems('andereIncident')}
         </ul>
         <div>Opmerkingen:</div>
         <div style={textStyle}><strong>{fiche.opmerkingen}</strong></div>

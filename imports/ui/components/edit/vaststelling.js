@@ -106,7 +106,7 @@ export default class Vaststelling extends Component {
 
   renderKennisgaveAnderItems(id){
     return Object.keys(this.state[id]).map((key, bool) => (
-      <Checkbox key={key} label={key} checked={this.state[id][key]} onCheck={(event, checked) => this.handleChbxChangeAndere(key, event, checked)} style={styles.checkbox} />
+      <Checkbox key={key} label={key} checked={this.state[id][key]} onCheck={(event, checked) => this.handleChbxChangeAndere(id, key, event, checked)} style={styles.checkbox} />
     ));
   }
   handleClose = (id) => {
@@ -117,9 +117,9 @@ export default class Vaststelling extends Component {
   handleChbxChange = (id, event, checked) => {
     this.setState({[id]: checked});
   }
-  handleChbxChangeAndere = (id, event, checked) => {
-    this.state.kennisgaveAndere[id] = checked;
-    this.setState({kennisgaveAndere: this.state.kennisgaveAndere});
+  handleChbxChangeAndere = (id, key, event, checked) => {
+    this.state[id][key] = checked;
+    this.setState({[id]: this.state[id]});
   }
   saveThis = () => {
     this.setState({mode: 'view'});
