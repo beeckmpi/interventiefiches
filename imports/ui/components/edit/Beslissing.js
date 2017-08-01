@@ -54,6 +54,7 @@ export default class Beslissing extends Component {
       civieleBescherming: props.fiche.civieleBescherming,
       fast: props.fiche.fast,
       kennisgaveAndere: props.fiche.kennisgaveAndere,
+      kennisgaveAndereTekst: "",
       kennisgavePolitie: props.fiche.kennisgavePolitie,
       mode: props.fiche.mode,
       naOproepAannemer: props.fiche.naOproepAannemer,
@@ -79,17 +80,26 @@ export default class Beslissing extends Component {
   };
 
   handleAdd = (event) => {
-    this.setState({open: false, kennisgaveAndereTekst:event.target.value});
-
+    this.setState({open: false, kennisgaveAndere: {...this.state.kennisgaveAndere, [this.state.kennisgaveAndereTekst]: true, kennisgaveAndereTekst: ""}});
   };
 
+  renderKennisgaveAnderItems(){
+    return Object.keys(this.state.kennisgaveAndere).map((key, bool) => (
+      <Checkbox key={key} label={key} checked={this.state.kennisgaveAndere[key]} onCheck={(event, checked) => this.handleChbxChangeAndere(key, event, checked)} style={styles.checkbox} />
+    ));
+  }
   handleClose = () => {
    this.setState({open: false});
   };
+
   handleChange = (event) => this.setState({[event.target.name]: event.target.value});
   handleChangeTime = (id, event, date) => this.setState({[id]: date});
   handleChbxChange = (id, event, checked) => {
     this.setState({[id]: checked});
+  }
+  handleChbxChangeAndere = (id, event, checked) => {
+    this.state.kennisgaveAndere[id] = checked;
+    this.setState({kennisgaveAndere: this.state.kennisgaveAndere});
   }
   saveThis = () => {
     this.setState({mode: 'view'});
@@ -191,6 +201,7 @@ export default class Beslissing extends Component {
               <Checkbox label="VVC" checked={this.state.VVC} onCheck={(event, checked) => this.handleChbxChange("VVC", event, checked)} style={styles.checkbox} />
               <Checkbox label="VTC" checked={this.state.VTC} onCheck={(event, checked) => this.handleChbxChange("VTC", event, checked)} style={styles.checkbox} />
               <Checkbox label="Politie" checked={this.state.kennisgavePolitie} onCheck={(event, checked) => this.handleChbxChange("kennisgavePolitie", event, checked)} style={styles.checkbox} />
+              {this.renderKennisgaveAnderItems()}
               <RaisedButton label="Andere toevoegen" className={this.props.classNameProp} primary={true} onClick={this.KennisgaveAndereOptieToevoegen} />
             </div>
             <Dialog
@@ -205,8 +216,7 @@ export default class Beslissing extends Component {
                 floatingLabelText="Andere categorie"
                 name="kennisgaveAndereTekst"
                 value={this.state.kennisgaveAndereTekst}
-                ref={input => this.data.kennisgaveAndereTekst = input}
-                value={fiche.kennisgaveAndereTekst}
+                onChange={this.handleChange}
               />
             </Dialog>
         </section>

@@ -64,7 +64,7 @@ Meteor.methods({
       brandweer: false,
       civieleBescherming: false,
       fast: false,
-      kennisgaveAndere: false,
+      kennisgaveAndere: {},
       kennisgaveAndereTekst: "",
       kennisgavePolitie: false,
       mode: "edit",

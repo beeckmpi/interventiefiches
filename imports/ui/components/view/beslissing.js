@@ -30,6 +30,11 @@ export default class BeslissingView extends Component {
 
     };
   }
+  renderKennisgaveAnderItems(){
+    return Object.keys(this.props.fiche.kennisgaveAndere).map((key, bool) => (
+      this.props.fiche.kennisgaveAndere[key] ? <li key={key}><strong>{key}</strong></li> : ''
+    ));
+  }
   render() {
     const { data, fiche } = this.props;
     return (
@@ -58,7 +63,7 @@ export default class BeslissingView extends Component {
           {fiche.VVC ? <li><strong>VVC</strong></li> : ''}
           {fiche.VTC ? <li><strong>VTC</strong></li> : ''}
           {fiche.kennisgavePolitie ? <li><strong>Politie</strong></li> : ''}
-          {fiche.kennisgaveAndere ? <li><strong>{fiche.kennisgaveAndereTekst}</strong></li> : ''}
+          {this.renderKennisgaveAnderItems()}
         </ul>
       </div>
     );
