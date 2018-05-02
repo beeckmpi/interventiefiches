@@ -40,16 +40,16 @@ export default class BeslissingView extends Component {
     return (
       <div>
         {fiche.regie ?
-            <p>De regie leverde bijstand na de oproep om <strong>{moment(fiche.uurOproepRegie).format('HH:MM')}</strong>, de beslissing kwam <strong>{fiche.naOproepRegie ? 'na de oproep': ''} {fiche.naOproepAannemer ? 'na vaststellingen': ''}</strong>.</p>
+            <p>De regie werd opgeroepen op <strong>{moment(fiche.uurOproepRegie).format('HH:MM')}</strong>.</p>
             : '' }
         {fiche.aannemer ?
-          <p>De aannemer (<strong>{fiche.naamAannemer}</strong>) leverde bijstand na de oproep om <strong>{moment(fiche.uurOproepAannemer).format('HH:MM')}</strong>, de beslissing kwam <strong>{fiche.naOproepAannemer ? 'na de oproep': ''} {fiche.naVaststellingAannemer ? 'na vaststellingen': ''}</strong>.</p>
+          <p>De aannemer (<strong>{fiche.naamAannemer}</strong>)  werd opgeroepen op <strong>{moment(fiche.uurOproepAannemer).format('HH:MM')}</strong>.</p>
         : '' }
         {fiche.signalisatie ?
-            <p>De signalisatie werd geplaatst een oproep om <strong>{moment(fiche.uurOproepSignalisatie).format('HH:MM')}</strong>, de kost van de signalisatie zit bij <strong>{fiche.BotsersBestek ? 'het botsers bestek': ''} {fiche.signalisatieAannemer ? 'de aannemer': ''}</strong>.</p>
+            <p>De signalisatie werd opgeroepen op <strong>{moment(fiche.uurOproepSignalisatie).format('HH:MM')}</strong>, de kost van de signalisatie zit bij <strong>{fiche.BotsersBestek ? 'het botsers bestek': ''} {fiche.signalisatieAannemer ? 'de aannemer': ''}</strong>.</p>
             : '' }
         {fiche.bodemdeskundige ?
-          <p>De bodemdeskundige (<strong>{fiche.bodemdeskundige}</strong>) leverde bijstand na de oproep om <strong>{moment(fiche.uurOproepAannemer).format('HH:MM')}</strong>.</p>
+          <p>De bodemdeskundige (<strong>{fiche.bodemdeskundige}</strong>)  werd opgeroepen op <strong>{moment(fiche.uurOproepAannemer).format('HH:MM')}</strong>.</p>
         : '' }
         <p>De volgende diensten werden opgeroepen:</p>
         <ul>

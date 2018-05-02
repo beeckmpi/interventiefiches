@@ -116,13 +116,13 @@ class EditFiche extends Component {
           <Paper style={paperStyle} className={bijlagesC}>
             <div className="clickBox" onTouchTap={() => this.showHide('bijlagesC', 'bijlages_', bijlages_)}></div>
             { (bijlages_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} /> }
-            <div className="catTitle">Bijlages</div>
-            <div className={bijlages_}><Bijlages key={fiche._id} ficheId={fiche._id} fiche={fiche} imageFiles={imageFiles}  /></div>
+            <div className="catTitle">Bijlagen</div>
+            <div className={bijlages_}><Bijlages key={fiche._id} ficheId={fiche._id} fiche={fiche.files} imageFiles={imageFiles}  /></div>
           </Paper>
           <Paper style={paperStyle} className={afmeldingC}>
             <div className="clickBox" onTouchTap={() => this.showHide('afmeldingC', 'afmelding_', afmelding_)}></div>
             { (afmelding_=='closed') ? <KeyboardArrowDown style={arrowDownStyles} /> : <KeyboardArrowUp style={arrowDownStyles} /> }
-            <div className="catTitle">Afmelding</div>
+            <div className="catTitle">Melding Einde Acties</div>
           </Paper>
         </div>
       );

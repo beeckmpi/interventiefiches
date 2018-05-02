@@ -145,7 +145,7 @@ export default class Tijdstippen extends Component {
           <div style={{display:'flex', flexWrap: 'wrap', alignItems:'flex-end'}}>
             <TimePicker floatingLabelStyle={floatingLabelColor} onChange={(event, date) => this.handleChangeTime("vanAannemer", event, date)} value={state.vanAannemer} format="24hr" hintText="Van" name="regieVan" floatingLabelText="Van" />
             <TimePicker floatingLabelStyle={floatingLabelColor} onChange={(event, date) => this.handleChangeTime("totAannemer", event, date)} value={state.totAannemer} format="24hr" hintText="Tot" name="regieTot" floatingLabelText="Tot" />
-            <TextField floatingLabelStyle={floatingLabelColor} floatingLabelText="Regie toezichter" ref={input => data.regieToezichter = input} defaultValue={fiche.regieToezichter} type="text" name="regieToezichter" />
+            <TextField floatingLabelStyle={floatingLabelColor} floatingLabelText="Ploegbaas Aannemer" ref={input => data.regieToezichter = input} defaultValue={fiche.regieToezichter} type="text" name="regieToezichter" />
           </div>
           <div style={{width: '200px', fontWeight: "bold"}}>Signalisatie ter plaatse:</div>
           <div style={{display:'flex', flexWrap: 'wrap', alignItems:'flex-end'}}>
@@ -164,7 +164,7 @@ export default class Tijdstippen extends Component {
             <Checkbox label="Afgraving" checked={state.afgraving} onCheck={(event, checked) => this.handleChbxChange("afgraving", event, checked)} style={styles.checkbox} />
             <Checkbox label="Ontstoppen riolering" checked={state.ontstoppen} onCheck={(event, checked) => this.handleChbxChange("ontstoppen", event, checked)} style={styles.checkbox} />
             <Checkbox label="Reinigen wegdek" checked={state.reinigen} onCheck={(event, checked) => this.handleChbxChange("reinigen", event, checked)} style={styles.checkbox} />
-            <Checkbox label="V. / A. stootbanden" checked={state.vaStootbanden} onCheck={(event, checked) => this.handleChbxChange("vaStootbanden", event, checked)} style={styles.checkbox} />
+            <Checkbox label="Aanpassen stootbanden" checked={state.vaStootbanden} onCheck={(event, checked) => this.handleChbxChange("vaStootbanden", event, checked)} style={styles.checkbox} />
             <Checkbox label="Vullen put" checked={state.vullenPut} onCheck={(event, checked) => this.handleChbxChange("vullenPut", event, checked)} style={styles.checkbox} />
             {this.renderAndereItems()}
             <RaisedButton label="Andere toevoegen" className={this.props.classNameProp} primary={true} onClick={this.andereOptieToevoegen} />

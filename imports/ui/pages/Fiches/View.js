@@ -24,7 +24,7 @@ import Vaststelling from '../../components/view/vaststelling';
 import Beslissing from '../../components/view/beslissing';
 import Tijdstippen from '../../components/view/tijdstippen';
 import Bijkomende from '../../components/view/bijkomende';
-import Bijlages from '../../components/edit/Bijlages';
+import Bijlages from '../../components/view/bijlages';
 //styles
 const itemStyle = {fontSize:"smaller", margin:'15px 0px 6px 0px'};
 const arrowDownStyles = {height:"50px", position:"absolute", "right": "5px", "top": "8px", width:"40px"};

@@ -44,6 +44,7 @@ export default class AuthPageSignIn extends Component {
       password: this.state.password,
     };
     Meteor.loginWithPassword(userObject.email, userObject.password, function(err){
+      if (err) console.log(err);
       const location = {
         pathname: '/'
       }

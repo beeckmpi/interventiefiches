@@ -13,6 +13,7 @@ import Dropzone from 'react-dropzone';
 import RaisedButton from 'material-ui/RaisedButton';
 import Images from '../../../api/files/files.js';
 import IndividualFile from '../individualFile.js';
+import BijlagesView from '../view/bijlages';
 
 const floatingLabelColor = {
   color: "#757575"
@@ -43,7 +44,7 @@ export default class Bijlages extends Component {
       open: false,
       files: {},
       activeId: '',
-      mode: this.props.fiche.mode
+      mode: props.fiche.mode
     };
   }
   getInitialState = () => {
@@ -95,10 +96,15 @@ export default class Bijlages extends Component {
         } else {
          console.log('uploaded: ', fileObj);
          console.log(fileObj._id);
-         let fileInfo = {'_id': fileObj._id, 'name': fileObj.name, 'ext': fileObj.ext}
-         let dataImport = {'files': fileInfo};
+         let fileInfo = [];
+         fileInfo['uploadId'] = fileObj._id;
+         fileInfo['name'] = fileObj.name;
+         fileInfo['ext'] = fileObj.ext;
+        
+         const dataC = Object.assign({}, this.props.fiche, state);
+         let dataImport= {'files': dataC};
          console.log(dataImport);
-         Meteor.call('fiches.addToSet', ficheID, dataImport);
+         Meteor.call('fiches.insert', ficheID, dataImport);
          // Reset our state for the next file
          self.setState({
            uploading: [],
@@ -146,12 +152,22 @@ export default class Bijlages extends Component {
    }
  }
  showUploadedFiles = () => {
-   const { imageFiles } = this.props;
+   const { imageFiles, files } = this.props;
    if(imageFiles!=undefined) {
      return imageFiles.map((image, key) => (
        <IndividualFile key={key} image={image} />
      ));
    }
+ }
+ saveThis = () => {
+   this.setState({mode: 'view'});
+   state.mode= 'view';
+   Meteor.call('fiches.update', this.props.ficheId, {'bijlages.mode': "view"});
+
+ }
+ setAsView = () => {
+   this.setState({mode: 'edit'});
+   Meteor.call('fiches.update', this.props.ficheId, {'bijlages.mode': "edit"});
  }
  render() {
    if (!this.props.docsReadyYet) {
@@ -179,7 +195,7 @@ export default class Bijlages extends Component {
          <div style={{position: 'absolute', top:'15px', right:"60px", zIndex:"1005"}}>
            <RaisedButton label="Categorie bewerken" className={this.props.classNameProp} secondary={true} onClick={this.setAsView} />
          </div>
-         {this.showUploadedFiles()}
+         <BijlagesView imageFiles={this.props.imageFiles} />
        </section>
        <Dialog
           modal={true}

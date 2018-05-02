@@ -174,7 +174,7 @@ class FicheToevoegen extends Component {
           </div>
           <div>
             <TextField
-              hintText="Provinciaal coördinator"
+              hintText="Hoofdcoördinator Wegen"
               floatingLabelStyle={floatingLabelColor}
               floatingLabelText="Oproep ontvangen door"
               name="provinciaalCoordinator"
@@ -184,7 +184,7 @@ class FicheToevoegen extends Component {
           </div>
           <div style={{display:"flex"}}>
             <AutoComplete
-              floatingLabelText="Provinciaal Coördinator"
+              floatingLabelText="Regionale Coördinator Wegen"
               floatingLabelStyle={floatingLabelColor}
               filter={AutoComplete.fuzzyFilter}
               name="doorgegevenAan"
@@ -389,7 +389,7 @@ class FicheToevoegen extends Component {
         </Paper>
         <Paper style={paperStyle}>
           <KeyboardArrowDown style={arrowDownStyles} />
-          <h3>Bijlages</h3>
+          <h3>Bijlagen</h3>
         </Paper>
         <Paper style={paperStyle}>
           <KeyboardArrowDown style={arrowDownStyles} />

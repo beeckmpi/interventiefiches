@@ -92,17 +92,28 @@ export default class Beslissing extends Component {
    this.setState({open: false});
   };
 
-  handleChange = (event) => this.setState({[event.target.name]: event.target.value});
-  handleChangeTime = (id, event, date) => this.setState({[id]: date});
+  handleChange = (event) => {
+    this.setState({[event.target.name]: event.target.value});
+    this.saveThis();
+  }
+  handleChangeTime = (id, event, date) => {
+    this.setState({[id]: date});
+    this.saveThis();
+  }
   handleChbxChange = (id, event, checked) => {
     this.setState({[id]: checked});
+    this.saveThis();
   }
   handleChbxChangeAndere = (id, event, checked) => {
     this.state.kennisgaveAndere[id] = checked;
     this.setState({kennisgaveAndere: this.state.kennisgaveAndere});
+    this.saveThis();
   }
-  saveThis = () => {
+  setToView = () => {
     this.setState({mode: 'view'});
+    this.saveThis();
+  }
+  saveThis = () => {    
     const {data, state} = this;
     let dataInputs = {};
     for (var key in data) {
@@ -110,8 +121,8 @@ export default class Beslissing extends Component {
         dataInputs[data[key]["input"]["name"]] = data[key]["input"]["value"];
       }
     };
+    console.log('test');
     console.log(this.props.ficheId);
-    state.mode= 'view';
     const dataC = Object.assign({}, dataInputs, state);
     let dataImport = {'beslissingen': dataC};
     Meteor.call('fiches.update', this.props.ficheId, dataImport);
@@ -145,11 +156,10 @@ export default class Beslissing extends Component {
           </div>
           <div style={{fontSize: "0.83em", fontWeight: "bold"}}>Oproep aan</div>
           <div style={{display:'flex', flexWrap: 'wrap', alignItems:'flex-end'}}>
-            <Checkbox label="Regie" checked={this.state.regie} onCheck={(event, checked) => this.handleChbxChange("regie", event, checked)} style={styles.checkbox} />
+            <Checkbox label="Eigen personeel" checked={this.state.regie} onCheck={(event, checked) => this.handleChbxChange("regie", event, checked)} style={styles.checkbox} />
             <div className={!this.state.regie ? "hidden": "flex"} style={{alignItems:'flex-end'}}>
               <TimePicker floatingLabelStyle={floatingLabelColor} value={this.state.uurOproepRegie} format="24hr" onChange={(event, date) => this.handleChangeTime("uurOproepRegie", event, date)} hintText="Uur oproep" name="uurOproepRegie" floatingLabelText="Uur oproep" />
-              <Checkbox label="Na oproep" checked={this.state.naOproepRegie} onCheck={(event, checked) => this.handleChbxChange("naOproepRegie", event, checked)}  style={styles.checkbox} />
-              <Checkbox label="Na vaststellingen" checked={this.state.naVaststellingRegie} onCheck={(event, checked) => this.handleChbxChange("naVaststellingRegie", event, checked)}  style={styles.checkbox} />
+             
             </div>
           </div>
           <div >
@@ -164,8 +174,6 @@ export default class Beslissing extends Component {
                   ref={input => this.data.naamAannemer = input}
                   value={fiche.naamAannemer}
                 />
-                <Checkbox label="Na oproep" checked={this.state.naOproepAannemer} onCheck={(event, checked) => this.handleChbxChange("naOproepAannemer", event, checked)} style={{maxWidth:'256px', marginBottom: '8pt'}} />
-                <Checkbox label="Na vaststellingen" checked={this.state.naVaststellingAannemer} onCheck={(event, checked) => this.handleChbxChange("naVaststellingAannemer", event, checked)} style={styles.checkbox} />
               </div>
             </div>
           </div>
